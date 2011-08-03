@@ -4,7 +4,7 @@
 
 #browse {
     clear: both;
-    width: 920px;
+    /*width: 920px;*/
     margin: 0 auto;
     border: 1px solid #dfe6e6;
     background: #f7f9f9;
@@ -12,14 +12,14 @@
     padding-bottom: 30px;
 }
 #browse h4 {
-    width: 13%;
+    /*width: 13%;*/
     height: 30px;
     margin-bottom: 27px;
     padding-left: 15px;
     font-weight: normal;
     line-height: 38px;
-    color: #fff;
-    background: #5e6363;
+    /*color: #fff;*/
+    /*background: #5e6363;*/
     font-size: 20px;
 }
 /* BROWSE CLASS GROUPS ------>  */
@@ -30,7 +30,7 @@ ul#browse-classgroups {
     border-right: none;
     background: #f1f2ee;
     margin-left: 34px;
-    padding: 0 20px 23px 20px;
+    /*padding: 0 20px 23px 20px;*/
     margin-top: 10px;
     padding-top: 10px;
 }
@@ -60,7 +60,7 @@ ul#browse-classgroups .count-classes {
 #browse-classes {
     float: left;
     position: relative;
-    width: 610px;
+    width: 410px;
     border: 1px solid #dde6e5;
     background: #fff;
     min-height: 230px;
@@ -80,7 +80,7 @@ ul#classes-in-classgroup {
     margin-bottom: 10px;
 }
 ul#classes-in-classgroup.vis {
-    width: 55%;
+    width: 35%;
     border-right: 1px solid #DDE5E4;
 }
 ul#classes-in-classgroup li {
@@ -108,7 +108,7 @@ ul#classes-in-classgroup .count-individuals {
 /* VISUALIZATION  ------>  */
 #visual-graph {
     float: left;
-    width: 235px;
+    /*width: 235px;*/
 }
 #visual-graph h5 {
     padding: 20px 0 12px 12px;

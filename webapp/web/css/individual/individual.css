@@ -61,6 +61,8 @@ img#uriIcon {
     float: left;
     padding-right: 1.5em;
     margin-bottom: 20px;
+	padding-left:50px;
+	padding-top:20px;
 }
 #share-contact h3 {
     margin-top: 15px;
@@ -96,7 +98,7 @@ h2#mainImage, #share-contact h2 {
 #individual-info {
     padding: 0;
     float: left;
-    width: 98%;
+    /*width: 98%;*/
 }
 h1.fn .display-title {
     padding-left: 10px;
