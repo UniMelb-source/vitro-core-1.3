@@ -7,13 +7,13 @@
 }
 #admin h3 {
     display: inline-block;
-    padding: 3px 6px 3px 10px;
+    /*padding: 3px 6px 3px 10px;*/
     margin-bottom: 5px;
     font-size: 14px;
     float: left;
 }
 #admin .uri-link {
-    padding-left: 11px;
+    /*padding-left: 11px;*/
     padding-bottom: 5px;
     clear: left;
 }
@@ -23,8 +23,8 @@
     padding-top: 8px;
 }
 #verbose-mode {
-    float: right;
-    padding-left: 10px;
+    /*float: right;
+    padding-left: 10px;*/
 }
 #verbose-mode .small {
     padding: 5px 6px 4px;
@@ -200,10 +200,10 @@ article.property ul.subclass-property-list li {
     margin-left: 2px;
 }
 .edit-individual {
-    margin-left: 10px;
+    /*margin-left: 10px;
     padding-left: 8px;
     padding-right: 1px;
-    vertical-align: middle;
+    vertical-align: middle;*/
 }
 .delete-individual {
     vertical-align: middle;
