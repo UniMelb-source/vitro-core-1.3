@@ -212,8 +212,8 @@ ul#alpha-browse-individuals a {
 }
 /* BROWSE INDIVIDUALS------>  */
 #individuals-in-class {
-    float: right;
-    width: 68%;
+    /*float: right;
+    width: 68%;*/
     padding-bottom: 30px;
     margin-bottom: 30px;
     margin-right: 17px;
