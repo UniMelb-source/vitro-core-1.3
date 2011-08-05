@@ -6,7 +6,7 @@
 
 <section id="browse-by" role="region">
     <nav role="navigation">
-        <nav id="alpha-browse-container" role="navigation">
+        <nav id="alpha-browse-container" role="navigation" class="col-6">
             <h3 class="selected-class"></h3>
             <#assign alphabet = ["A", "B", "C", "D", "E", "F", "G" "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"] />
             <ul id="alpha-browse-individuals">
@@ -16,7 +16,7 @@
                 </#list>
             </ul>
         </nav>
-        <ul id="browse-classes">
+        <ul id="browse-classes" class="col-2">
             <#list vClassGroup as vClass>
                 <#------------------------------------------------------------
                 Need to replace vClassCamel with full URL that allows function

@@ -153,10 +153,10 @@ ul#find-filters a {
 }
 /* BROWSE BY ------>  */
 #browse-by {
-    clear: both;
+    /*clear: both;
     width: 90%;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: hidden;*/
 }
 #browse-by h2 {
     width: 120px;
@@ -168,14 +168,14 @@ ul#find-filters a {
 /* BROWSE CLASSES ------>  */
 ul#browse-classes {
     float: left;
-    width: 255px;
+    /*width: 255px;*/
     margin-left: 15px;
     margin-bottom: 20px;
     margin-top: 10px;
 }
 ul#browse-classes li {
     display: block;
-    width: 235px;
+    /*width: 235px;*/
     margin-left: 10px;
     margin-right: 10px;
     padding-top: 10px;
@@ -187,7 +187,7 @@ ul#browse-classes li:last-child {
 ul#browse-classes a {
     display: block;
     padding-left: 20px;
-    width: 225px;
+    /*width: 225px;*/
 }
 /* ALPHA BROWSE------>  */
 ul#alpha-browse-individuals {
