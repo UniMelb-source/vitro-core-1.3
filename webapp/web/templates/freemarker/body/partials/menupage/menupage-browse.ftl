@@ -30,11 +30,12 @@
                 </#list>
             </ul>
         </nav>
-    </nav>
-    
-    <section id="individuals-in-class" role="region">
-        <ul role="list">
-            <#-- Will be populated dynamically via AJAX request -->
-        </ul>
-    </section>
+    </nav>    
 </section>
+</div>
+<div class="col-6">
+	<section id="individuals-in-class" role="region">
+		<ul role="list">
+		    <#-- Will be populated dynamically via AJAX request -->
+		</ul>
+	</section>
