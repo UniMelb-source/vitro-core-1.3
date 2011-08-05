@@ -59,10 +59,10 @@ img#uriIcon {
     position: relative;
     width: 166px;
     float: left;
-    padding-right: 1.5em;
+    padding-right: 10px;
     margin-bottom: 20px;
-	padding-left:50px;
-	padding-top:20px;
+	padding-left: 35px;
+	padding-top: 20px;
 }
 #share-contact h3 {
     margin-top: 15px;
