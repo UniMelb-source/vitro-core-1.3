@@ -16,25 +16,27 @@
                 </#list>
             </ul>
         </nav>
-		<div class="nav col-2">
-		    <ul>
-				<li>
-				    <#list vClassGroup as vClass>
-				        <#------------------------------------------------------------
-				        Need to replace vClassCamel with full URL that allows function
-				        to degrade gracefully in absence of JavaScript. Something
-				        similar to what Brian had setup with widget-browse.ftl
-				        ------------------------------------------------------------->
-				        <#assign vClassCamel = str.camelCase(vClass.name) />
-				        <#-- Only display vClasses with individuals -->
-				        <#if (vClass.entityCount > 0)>
-							<ul>
-						        <li id="${vClassCamel}"><a href="#${vClassCamel}" title="Browse all individuals in this class" data-uri="${vClass.URI}">${vClass.name} <span class="count-classes">(${vClass.entityCount})</span></a></li>
-							</ul>
-				        </#if>
-				    </#list>
-				</li>
-		    </ul>
+		<div class="col-2">
+			<div class="nav">
+				<ul>
+					<li>Select Of Type
+						<#list vClassGroup as vClass>
+						    <#------------------------------------------------------------
+						    Need to replace vClassCamel with full URL that allows function
+						    to degrade gracefully in absence of JavaScript. Something
+						    similar to what Brian had setup with widget-browse.ftl
+						    ------------------------------------------------------------->
+						    <#assign vClassCamel = str.camelCase(vClass.name) />
+						    <#-- Only display vClasses with individuals -->
+						    <#if (vClass.entityCount > 0)>
+								<ul>
+								    <li id="${vClassCamel}"><a href="#${vClassCamel}" title="Browse all individuals in this class" data-uri="${vClass.URI}">${vClass.name} <span class="count-classes">(${vClass.entityCount})</span></a></li>
+								</ul>
+						    </#if>
+						</#list>
+					</li>
+				</ul>
+			</div>
 		</div>
     </nav>    
 </section>
