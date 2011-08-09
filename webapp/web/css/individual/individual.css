@@ -57,7 +57,7 @@ img#uriIcon {
 /* <------ INDIVIDUAL INTRO - LEFT SIDE CONTENT */
 #share-contact {
     position: relative;
-    width: 166px;
+    /*width: 166px;*/
     float: left;
     padding-right: 10px;
     margin-bottom: 20px;
