@@ -26,7 +26,7 @@
 		</ul>
 	</section>
 </div>
-<div class="col-2">
+<div class="col-2" style="float:right;margin-right:20px;">
 	<div class="nav">
 		<ul>
 			<li>Select Of Type
