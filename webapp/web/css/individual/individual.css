@@ -112,8 +112,8 @@ h1.fn .display-title {
 }
 #individual-info nav {
     float: left;
-    width: 74%;
-    clear: left;
+    /*width: 74%;
+    clear: left;*/
 }
 /* PROPERTY GROUP MENU------>  */
 #property-group-menu {
