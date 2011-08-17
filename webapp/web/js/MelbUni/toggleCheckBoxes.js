@@ -14,12 +14,14 @@ function unCheckAll(field)
 	}
 }
 
-function checkBox(count)
+function checkBox(nameStr)
 {
-	document.getElementById('inferredStatements'+count).removeAttribute('disabled');
+	/*document.getElementById('inferredStatements'+count).removeAttribute('disabled');*/
+    ('input[name=' + nameStr + ']').removeAttribute('disabled');
 }
 
-function unCheckBox(count)
+function unCheckBox(nameStr)
 {
-	document.getElementById('inferredStatements'+count).disabled='true';
+	/*document.getElementById('inferredStatements'+count).disabled='true';*/
+    ('input[name=' + nameStr + ']').disabled='true';
 }

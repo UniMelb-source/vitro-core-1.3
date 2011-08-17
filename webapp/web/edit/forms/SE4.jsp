@@ -94,7 +94,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                  ?org rdfs:label ?olabel}
 	      </sparql:select>
 					<c:forEach items="${inforauthorships.rows}" var="inforauthorship" varStatus="counter">
-                                            <input type="hidden" disabled id="inferredStatements${counter.count}" name="inferredStatements${counter.count}" value="
+                                            <input type="hidden" disabled id="inferredStatements${counter.count}" name="inferredStatementsAPI${counter.count}" value="
 						@prefix ands: <${vitroands}> .
                                                 @prefix core: <${vivoCore}> .
                                                 ?researchDataUri ands:associatedPrincipleInvestigator <${inforauthorship.person}> .
@@ -105,12 +105,41 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                 <div class="inferredStatements">
                                                     Associated Principle Investigator: ${inforauthorship.plabel} (Custodian Department: ${inforauthorship.olabel})
                                                     <div style="float: right">
-                                                        <input type="checkbox" name="list" onclick="if(this.checked){checkBox(${counter.count})}else{unCheckBox(${counter.count})}"/>
+                                                        <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsAPI${counter.count})}else{unCheckBox(inferredStatementsAPI${counter.count})}"/>
                                                     </div>
                                                 </div>
                                             </li>
 					</c:forEach>
 	  </sparql:sparql> 
+</c:set>
+
+<c:set var="inheritedSubjectArea">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="subjectAreaSparql" publication="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT ?subjectArea WHERE{
+                    ?publication core:hasSubjectArea ?subjectArea .
+                    ?subjectArea rdfs:label ?subjectAreaLabel
+              }
+	      </sparql:select>
+					<c:forEach items="${subjectAreaSparql.rows}" var="subjectAreaResult" varStatus="counter">
+                                            <input type="hidden" disabled id="inferredStatements${counter.count}" name="inferredStatementsSA${counter.count}" value="
+                                                @prefix ands: <${vitroands}> .
+                                                @prefix core: <${vivoCore}> .
+                                                ?researchDataUri core:hasSubjectArea <${subjectAreaResult.subjectArea}> ." />
+                                            <li>
+                                                <div class="inferredStatements">
+                                                    Subject Area: ${subjectAreaResult.subjectAreaLabel}
+                                                    <div style="float: right">
+                                                        <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsSA${counter.count})}else{unCheckBox(inferredStatementsSA${counter.count})}"/>
+                                                    </div>
+                                                </div>
+                                            </li>
+					</c:forEach>
+	  </sparql:sparql>
 </c:set>
 
 <%--  Then enter a SPARQL query for each field, by convention concatenating the field id with "Existing"
