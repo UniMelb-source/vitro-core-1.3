@@ -14,12 +14,12 @@ function unCheckAll(field)
 	}
 }
 
-function checkBox(nameStr)
+function checkBox(idStr)
 {
-    $('input[name="' + nameStr + '"]').removeAttr('disabled');
+    $("#" + idStr).removeAttr('disabled');
 }
 
-function unCheckBox(nameStr)
+function unCheckBox(idStr)
 {
-    $('input[name="' + nameStr + '"]').attr('disabled', 'disabled');
+    $("#" + idStr).attr('disabled', 'disabled');
 }

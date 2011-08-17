@@ -104,7 +104,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                             <li>
                                                 Associated Principle Investigator: ${inforauthorship.plabel} (Custodian Department: ${inforauthorship.olabel})
                                                 <div style="float: right">
-                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsAPI${counter.count})}else{unCheckBox(inferredStatementsAPI${counter.count})}"/>
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsAPI'+${counter.count})}else{unCheckBox('inferredStatementsAPI'+${counter.count})}"/>
                                                 </div>
                                             </li>
 					</c:forEach>
@@ -131,7 +131,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                             <li>
                                                 Subject Area: ${subjectAreaResult.subjectAreaLabel}
                                                 <div style="float: right">
-                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsSA${counter.count})}else{unCheckBox(inferredStatementsSA${counter.count})}"/>
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsSA'+${counter.count})}else{unCheckBox('inferredStatementsSA'+${counter.count})}"/>
                                                 </div>
                                             </li>
 					</c:forEach>
