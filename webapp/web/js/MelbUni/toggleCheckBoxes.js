@@ -16,10 +16,10 @@ function unCheckAll(field)
 
 function checkBox(nameStr)
 {
-    $('input[name=' + nameStr + ']').removeAttr('disabled');
+    $('input[name="' + nameStr + '"]').removeAttr('disabled');
 }
 
 function unCheckBox(nameStr)
 {
-    $('input[name=' + nameStr + ']').attr('disabled', 'disabled');
+    $('input[name="' + nameStr + '"]').attr('disabled', 'disabled');
 }
