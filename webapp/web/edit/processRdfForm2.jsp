@@ -68,7 +68,18 @@ are well formed.
     /* the post parameters seem to get consumed by the parsing so
      * we have to make a copy. */
     Map <String,String[]> queryParameters = null;        
-    queryParameters = vreq.getParameterMap();        
+    queryParameters = vreq.getParameterMap();
+
+    List<String> inferredStatements = new ArrayList<String>();
+
+    for (Map.Entry<String, String[]> entry : queryParameters.entrySet())
+    {
+        if(entry.getKey().startsWith("inferredStatements"))
+        {
+            String[] tempArray = entry.getValue();
+            inferredStatements.add(tempArray[0]);
+        }
+    }
  
     List<String>  errorMessages = new ArrayList<String>();                   
     
@@ -199,6 +210,7 @@ are well formed.
         optionalAssertions = Collections.EMPTY_LIST;
         
     } else {
+        n3Required.addAll(inferredStatements);
         if( log.isDebugEnabled()) log.debug("creating a new relation " + editConfig.getPredicateUri() );
         //handle creation of a new object property and maybe a resource
         List<String> n3Required = editConfig.getN3Required();
