@@ -72,7 +72,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %>
 
 <c:set var="vivoCore" value="http://vivoweb.org/ontology/core#" />
-<c:set var="vitroands" value="http://www.ands.org.au/ontologies/ns/0.1/VITRO-ANDS.owl#" />
+<%-- <c:set var="vitroands" value="http://www.ands.org.au/ontologies/ns/0.1/VITRO-ANDS.owl#" /> --%>
+<c:set var="vitroands" value="http://purl.org/ands/ontologies/vivo/" />
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
 <c:set var="label" value="${rdfs}label" />
 <c:set var="researchDataClass" value="${vitroands}ResearchData" />
