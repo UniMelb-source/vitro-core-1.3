@@ -16,12 +16,10 @@ function unCheckAll(field)
 
 function checkBox(nameStr)
 {
-	/*document.getElementById('inferredStatements'+count).removeAttribute('disabled');*/
-    ('input[name=' + nameStr + ']').removeAttribute('disabled');
+    $('input[name=' + nameStr + ']').removeAttr('disabled');
 }
 
 function unCheckBox(nameStr)
 {
-	/*document.getElementById('inferredStatements'+count).disabled='true';*/
-    ('input[name=' + nameStr + ']').disabled='true';
+    $('input[name=' + nameStr + ']').attr('disabled', 'disabled');
 }
