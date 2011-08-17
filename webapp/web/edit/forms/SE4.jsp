@@ -262,13 +262,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <c:set var="submitLabel" value="Create Record Description" />
 <%  } 
     
-    List<String> customJs = new ArrayList<String>(Arrays.asList("forms/js/customForm.js"
+    List<String> customJs = new ArrayList<String>(Arrays.asList("forms/js/customFormWithAutocomplete.js"
                                                                 //, "forms/js/customFormTwoStep.js"
                                                                 ));
     request.setAttribute("customJs", customJs);
     
     List<String> customCss = new ArrayList<String>(Arrays.asList("forms/css/customForm.css"
-                                                                 , "forms/css/personHasPositionHistory.css"
                                                                  ));
     request.setAttribute("customCss", customCss);   
 %>
