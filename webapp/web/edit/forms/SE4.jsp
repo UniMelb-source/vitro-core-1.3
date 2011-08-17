@@ -102,11 +102,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 						?researchDataUri ands:custodianDepartment <${inforauthorship.org}> . 
                                                  <${inforauthorship.org}> ands:custodianOfResearchData ?researchDataUri ." />
                                             <li>
-                                                <div class="inferredStatements">
-                                                    Associated Principle Investigator: ${inforauthorship.plabel} (Custodian Department: ${inforauthorship.olabel})
-                                                    <div style="float: right">
-                                                        <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsAPI${counter.count})}else{unCheckBox(inferredStatementsAPI${counter.count})}"/>
-                                                    </div>
+                                                Associated Principle Investigator: ${inforauthorship.plabel} (Custodian Department: ${inforauthorship.olabel})
+                                                <div style="float: right">
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsAPI${counter.count})}else{unCheckBox(inferredStatementsAPI${counter.count})}"/>
                                                 </div>
                                             </li>
 					</c:forEach>
@@ -120,7 +118,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	          PREFIX bibo: <http://purl.org/ontology/bibo/>
 	          PREFIX core: <http://vivoweb.org/ontology/core#>
-	          SELECT ?subjectArea WHERE{
+	          SELECT ?subjectArea ?subjectAreaLabel WHERE{
                     ?publication core:hasSubjectArea ?subjectArea .
                     ?subjectArea rdfs:label ?subjectAreaLabel
               }
@@ -131,11 +129,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                 @prefix core: <${vivoCore}> .
                                                 ?researchDataUri core:hasSubjectArea <${subjectAreaResult.subjectArea}> ." />
                                             <li>
-                                                <div class="inferredStatements">
-                                                    Subject Area: ${subjectAreaResult.subjectAreaLabel}
-                                                    <div style="float: right">
-                                                        <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsSA${counter.count})}else{unCheckBox(inferredStatementsSA${counter.count})}"/>
-                                                    </div>
+                                                Subject Area: ${subjectAreaResult.subjectAreaLabel}
+                                                <div style="float: right">
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox(inferredStatementsSA${counter.count})}else{unCheckBox(inferredStatementsSA${counter.count})}"/>
                                                 </div>
                                             </li>
 					</c:forEach>
