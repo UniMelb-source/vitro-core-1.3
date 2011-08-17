@@ -209,12 +209,13 @@ are well formed.
         requiredRetractions = requiredFieldRetractions;
         optionalAssertions = Collections.EMPTY_LIST;
         
-    } else {
-        n3Required.addAll(inferredStatements);
+    } else {        
         if( log.isDebugEnabled()) log.debug("creating a new relation " + editConfig.getPredicateUri() );
         //handle creation of a new object property and maybe a resource
         List<String> n3Required = editConfig.getN3Required();
         List<String> n3Optional = editConfig.getN3Optional();
+
+        n3Required.addAll(inferredStatements);
         
         /* ********** URIs and Literals on Form/Parameters *********** */
         //sub in resource uris off form
