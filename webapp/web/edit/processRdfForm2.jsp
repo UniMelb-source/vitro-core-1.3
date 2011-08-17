@@ -74,6 +74,7 @@ are well formed.
 
     for (Map.Entry<String, String[]> entry : queryParameters.entrySet())
     {
+        log.info("DD: " + entry.getKey())
         if(entry.getKey().startsWith("inferredStatements"))
         {
             String[] tempArray = entry.getValue();
