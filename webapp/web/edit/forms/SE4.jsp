@@ -336,6 +336,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </div>
     <br>
     <ul>${inheritedCustodians}</ul>
+    <ul>${inheritedSubjectArea}</ul>
 </form>
 
 <jsp:include page="${postForm}"/>
