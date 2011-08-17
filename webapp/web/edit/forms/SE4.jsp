@@ -94,7 +94,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                  ?org rdfs:label ?olabel}
 	      </sparql:select>
 					<c:forEach items="${inforauthorships.rows}" var="inforauthorship" varStatus="counter">
-                                            <input type="hidden" disabled id="inferredStatements${counter.count}" name="inferredStatementsAPI${counter.count}" value="
+                                            <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsAPI${counter.count}" value="
 						@prefix ands: <${vitroands}> .
                                                 @prefix core: <${vivoCore}> .
                                                 ?researchDataUri ands:associatedPrincipleInvestigator <${inforauthorship.person}> .
@@ -126,7 +126,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               }
 	      </sparql:select>
 					<c:forEach items="${subjectAreaSparql.rows}" var="subjectAreaResult" varStatus="counter">
-                                            <input type="hidden" disabled id="inferredStatements${counter.count}" name="inferredStatementsSA${counter.count}" value="
+                                            <input type="hidden" disabled id="inferredStatementsSA${counter.count}" name="inferredStatementsSA${counter.count}" value="
                                                 @prefix ands: <${vitroands}> .
                                                 @prefix core: <${vivoCore}> .
                                                 ?researchDataUri core:hasSubjectArea <${subjectAreaResult.subjectArea}> ." />
