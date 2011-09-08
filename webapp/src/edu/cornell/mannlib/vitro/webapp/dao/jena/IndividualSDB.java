@@ -148,6 +148,7 @@ public class IndividualSDB extends IndividualImpl implements Individual {
         	        OntModelSpec.OWL_MEM, model);
         	
         	if (model.isEmpty() && noTriplesFor(individualURI)) {
+                log.info(individualURI);
         	    throw new IndividualNotFoundException();
         	}
         	
