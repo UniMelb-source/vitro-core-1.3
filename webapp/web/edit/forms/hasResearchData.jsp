@@ -85,30 +85,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	          PREFIX bibo: <http://purl.org/ontology/bibo/>
 	          PREFIX core: <http://vivoweb.org/ontology/core#>
-	          SELECT ?person ?org ?plabel ?olabel WHERE{
-		?publication core:informationResourceInAuthorship ?la.
-		?la core:linkedAuthor ?person.
+	          SELECT DISTINCT ?person ?plabel WHERE{
+                ?publication core:informationResourceInAuthorship ?la.
+                ?la core:linkedAuthor ?person.
+                ?person core:personInPosition ?position.                
+                ?person rdfs:label ?plabel}
+	      </sparql:select>
+					<c:forEach items="${inforauthorships.rows}" var="inforauthorship" varStatus="counter">
+                        <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsAPI${counter.count}" value="
+                            @prefix ands: <${vitroands}> .
+                            @prefix core: <${vivoCore}> .
+                            ?researchDataUri ands:associatedPrincipleInvestigator <${inforauthorship.person}> .
+                            <${inforauthorship.person}> ands:custodianOfResearchData ?researchDataUri ."
+                        />
+                        <li>
+                            Associated Principle Investigator: ${inforauthorship.plabel}
+                            <div style="float: right">
+                                <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsAPI'+${counter.count})}else{unCheckBox('inferredStatementsAPI'+${counter.count})}"/>
+                            </div>
+                        </li>
+					</c:forEach>
+	  </sparql:sparql> 
+</c:set>
+
+<c:set var="inheritedCustodianDepartments">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="custodianDepartmentSparql" publication="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT DISTINCT ?org ?olabel WHERE{
+                ?publication core:informationResourceInAuthorship ?la.
+                ?la core:linkedAuthor ?person.
                 ?person core:personInPosition ?position.
                 ?position core:positionInOrganization ?org.
                 ?person rdfs:label ?plabel.
-                 ?org rdfs:label ?olabel}
+                ?org rdfs:label ?olabel}
 	      </sparql:select>
-					<c:forEach items="${inforauthorships.rows}" var="inforauthorship" varStatus="counter">
-                                            <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsAPI${counter.count}" value="
-						@prefix ands: <${vitroands}> .
-                                                @prefix core: <${vivoCore}> .
-                                                ?researchDataUri ands:associatedPrincipleInvestigator <${inforauthorship.person}> .
-                                                <${inforauthorship.person}> ands:custodianOfResearchData ?researchDataUri  . 
-						?researchDataUri ands:custodianDepartment <${inforauthorship.org}> . 
-                                                 <${inforauthorship.org}> ands:custodianOfResearchData ?researchDataUri ." />
-                                            <li>
-                                                Associated Principle Investigator: ${inforauthorship.plabel} (Custodian Department: ${inforauthorship.olabel})
-                                                <div style="float: right">
-                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsAPI'+${counter.count})}else{unCheckBox('inferredStatementsAPI'+${counter.count})}"/>
-                                                </div>
-                                            </li>
+					<c:forEach items="${custodianDepartmentSparql.rows}" var="custodianDepartmentResult" varStatus="counter">
+                        <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsCD${counter.count}" value="
+                            @prefix ands: <${vitroands}> .
+                            @prefix core: <${vivoCore}> .
+                            ?researchDataUri ands:custodianDepartment <${custodianDepartmentResult.org}> .
+                             <${custodianDepartmentResult.org}> ands:custodianOfResearchData ?researchDataUri ."
+                        />
+                        <li>
+                            Custodian Department: ${custodianDepartmentResult.olabel}
+                            <div style="float: right">
+                                <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsCD'+${counter.count})}else{unCheckBox('inferredStatementsCD'+${counter.count})}"/>
+                            </div>
+                        </li>
 					</c:forEach>
-	  </sparql:sparql> 
+	  </sparql:sparql>
 </c:set>
 
 <c:set var="inheritedSubjectArea">
