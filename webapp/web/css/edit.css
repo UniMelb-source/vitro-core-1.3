@@ -207,7 +207,7 @@ td.editformcell select {
     margin: 0;
 }
 .header {
-    background-color: #B0C4DE;
+    /*background-color: #B0C4DE;*/
     color: #000;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
