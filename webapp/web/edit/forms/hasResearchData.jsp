@@ -124,7 +124,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 ?org rdfs:label ?olabel}
 	      </sparql:select>
 					<c:forEach items="${custodianDepartmentSparql.rows}" var="custodianDepartmentResult" varStatus="counter">
-                        <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsCD${counter.count}" value="
+                        <input type="hidden" disabled id="inferredStatementsCD${counter.count}" name="inferredStatementsCD${counter.count}" value="
                             @prefix ands: <${vitroands}> .
                             @prefix core: <${vivoCore}> .
                             ?researchDataUri ands:custodianDepartment <${custodianDepartmentResult.org}> .
