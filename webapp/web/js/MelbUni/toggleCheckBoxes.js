@@ -3,7 +3,10 @@ function checkAll(field)
 	for (i = 0; i < field.length; i++)
 	{
 		//field[i].checked = true ;
-        field[i].click();
+        if(field[i].checked == false)
+        {
+            field[i].click();
+        }
 	}
 }
 
@@ -12,7 +15,10 @@ function unCheckAll(field)
 	for (i = 0; i < field.length; i++)
 	{
 		//field[i].checked = false ;
-        field[i].click();
+        if(field[i].checked == true)
+        {
+            field[i].click();
+        }
 	}
 }
 
