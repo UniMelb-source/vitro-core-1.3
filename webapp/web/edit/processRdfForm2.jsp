@@ -77,6 +77,7 @@ are well formed.
         if(entry.getKey().startsWith("inferredStatements"))
         {
             String[] tempArray = entry.getValue();
+            log.info("DGC || " + tempArray[0]);
             inferredStatements.add(tempArray[0]);
         }
     }
