@@ -127,8 +127,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <input type="hidden" disabled id="inferredStatementsCD${counter.count}" name="inferredStatementsCD${counter.count}" value="
                             @prefix ands: <${vitroands}> .
                             @prefix core: <${vivoCore}> .
-                            ?researchDataUri ands:custodianDepartment <${custodianDepartmentResult.org}> .
-                             <${custodianDepartmentResult.org}> ands:custodianOfResearchData ?researchDataUri ."
+                            ?researchDataUri ands:isManagedBy <${custodianDepartmentResult.org}> .
+                             <${custodianDepartmentResult.org}> ands:isManagerOf ?researchDataUri ."
                         />
                         <li>
                             Custodian Department: ${custodianDepartmentResult.olabel}
