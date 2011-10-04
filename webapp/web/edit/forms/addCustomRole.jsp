@@ -528,10 +528,6 @@ log.debug("TYPE QUERY: " + vreq.getAttribute("typeQuery"));
 		        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
 		        <v:input type="hidden" id="roleActivityUri" name="roleActivity" cssClass="acUriReceiver" /> <!-- Field value populated by JavaScript -->
 		    </div>
-	
-	        <c:if test="${showRoleLabelField}">
-	           <p><v:input type="text" id="roleLabel" label="Role in ### ${requiredHint} ${roleExamples}" size="50" /></p>
-	        </c:if>
 	        
 	        <c:choose>
 	            <c:when test="${numDateFields == 1}">
