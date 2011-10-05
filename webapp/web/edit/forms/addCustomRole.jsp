@@ -149,6 +149,7 @@ SPARQL queries for existing values. --%>
 
 <c:set var="roleTypeLiteralOptions">
     ["", "Select type"],
+    [ "http://vivoweb.org/ontology/core#FacultyMember", "Faculty Member" ],
     [ "http://vivoweb.org/ontology/core#ResearcherRole", "Researcher" ],
     [ "http://vivoweb.org/ontology/core#InvestigatorRole", "Investigator" ],
     [ "http://vivoweb.org/ontology/core#PrincipalInvestigatorRole", "Principal Investigator" ],
