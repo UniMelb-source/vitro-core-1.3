@@ -568,4 +568,108 @@ log.debug("TYPE QUERY: " + vreq.getAttribute("typeQuery"));
 <% } %>
 
 <jsp:include page="${postForm}"/>
+
+<%!
+
+private static final String VIVO_CORE = "http://vivoweb.org/ontology/core#";
+
+private static final String DEFAULT_ACTIVITY_TYPE_QUERY = 
+    "PREFIX core: <" + VIVO_CORE + ">\n" +
+    "PREFIX vitro: <" + VitroVocabulary.vitroURI + "> \n" +
+    "SELECT ?existingActivityType WHERE { \n" +
+    "    ?role ?predicate ?existingActivity . \n" +
+    "    ?existingActivity vitro:mostSpecificType ?existingActivityType . \n" +
+    "}"; 
+    
+private static final String SUBCLASS_ACTIVITY_TYPE_QUERY = 
+    "PREFIX core: <" + VIVO_CORE + ">\n" +
+    "PREFIX rdfs: <" + VitroVocabulary.RDFS + ">\n" +
+    "PREFIX vitro: <" + VitroVocabulary.vitroURI + "> \n" +
+    "SELECT ?existingActivityType WHERE {\n" +
+    "    ?role ?predicate ?existingActivity . \n" +
+    "    ?existingActivity vitro:mostSpecificType ?existingActivityType . \n" +
+    "    ?existingActivityType rdfs:subClassOf ?objectClassUri . \n" +
+    "}";
+    
+private static final String  CLASSGROUP_ACTIVITY_TYPE_QUERY = 
+    "PREFIX core: <" + VIVO_CORE + ">\n" +
+    "PREFIX vitro: <" + VitroVocabulary.vitroURI + "> \n" +
+    "SELECT ?existingActivityType WHERE { \n" +
+    "    ?role ?predicate ?existingActivity . \n" +
+    "    ?existingActivity vitro:mostSpecificType ?existingActivityType . \n" +
+    "    ?existingActivityType vitro:inClassGroup ?classgroup . \n" +
+    "}";
+    
+/*
+ * The activity type query results must be limited to the values in the activity type select element. 
+ * Sometimes the query returns a superclass such as owl:Thing instead.
+ * Make use of vitro:mostSpecificType so that, for example, an individual is both a 
+ * core:InvitedTalk and a core:Presentation, core:InvitedTalk is selected.
+ * vitro:mostSpecificType alone may not suffice, since it does not guarantee that the value returned
+ * is in the select list.
+ * We could still have problems if the value from the select list is not a vitro:mostSpecificType, 
+ * but that is unlikely.
+ */
+private String getActivityTypeQuery(VitroRequest vreq) {
+
+    String activityTypeQuery = null;
+
+	String optionsType = vreq.getParameter("roleActivityType_optionsType");
+
+    // Note that this value is overloaded to specify either object class uri or classgroup uri
+    String objectClassUri = vreq.getParameter("roleActivityType_objectClassUri");
+    
+    if (StringUtils.isNotBlank(objectClassUri)) { 
+        log.debug("objectClassUri = " + objectClassUri);
+        
+		if ("VCLASSGROUP".equals(optionsType)) {
+		    activityTypeQuery = CLASSGROUP_ACTIVITY_TYPE_QUERY;
+		    activityTypeQuery = QueryUtils.subUriForQueryVar(activityTypeQuery, "classgroup", objectClassUri);    	
+		    
+		} else if ("CHILD_VCLASSES".equals(optionsType)) { 
+		    activityTypeQuery = SUBCLASS_ACTIVITY_TYPE_QUERY;
+		    activityTypeQuery = QueryUtils.subUriForQueryVar(activityTypeQuery, "objectClassUri", objectClassUri); 
+		    
+		} else {
+		    activityTypeQuery = DEFAULT_ACTIVITY_TYPE_QUERY;  
+		}
+		
+	// Select options are hardcoded
+	} else if ("HARDCODED_LITERALS".equals(optionsType)) { 	    
+	  
+        String typeLiteralOptions = vreq.getParameter("roleActivityType_literalOptions");
+        if (StringUtils.isNotBlank(typeLiteralOptions)) {           
+            try {
+                JSONObject json = new JSONObject("{values: [" + typeLiteralOptions + "]}");
+                Set<String> typeUris = new HashSet<String>();
+                JSONArray values = json.getJSONArray("values");
+                int valueCount = values.length();
+                for (int i = 0; i < valueCount; i++) {
+                    JSONArray option = values.getJSONArray(i);
+                    String uri = option.getString(0);
+                    if (StringUtils.isNotBlank(uri)) {
+                        typeUris.add("(?existingActivityType = <" + uri + ">)");
+                    }	                    
+                }
+                String typeFilters = "FILTER (" + StringUtils.join(typeUris, "||") + ")";
+                activityTypeQuery = DEFAULT_ACTIVITY_TYPE_QUERY.replaceAll("}$", "") + typeFilters + "}";
+            } catch (JSONException e) {
+                activityTypeQuery = DEFAULT_ACTIVITY_TYPE_QUERY;
+            }
+
+	    } else { 
+	        activityTypeQuery = DEFAULT_ACTIVITY_TYPE_QUERY;	    
+	    } 
+
+	} else {
+	    activityTypeQuery = DEFAULT_ACTIVITY_TYPE_QUERY;   
+	}
+
+	String roleToActivityPredicate = (String) vreq.getAttribute("roleToActivityPredicate");
+	activityTypeQuery = QueryUtils.subUriForQueryVar(activityTypeQuery, "predicate", roleToActivityPredicate);
+	
+	log.debug("Activity type query: " + activityTypeQuery);
+	
+    return activityTypeQuery;
+}
 %>
