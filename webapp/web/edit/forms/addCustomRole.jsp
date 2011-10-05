@@ -23,7 +23,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%@ page import="com.hp.hpl.jena.rdf.model.Model" %>
 <%@ page import="com.hp.hpl.jena.vocabulary.XSD" %>
 
-<%@page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
+<%@ page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.beans.Individual" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.EditConfiguration" %>
@@ -113,47 +113,34 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 SPARQL queries for existing values. --%>
 
 <v:jsonset var="newPubTypeAssertion">
-    ?pubUri a ?pubType .
+
 </v:jsonset>
 
 <v:jsonset var="newPubNameAssertion">
-    ?pubUri <${label}> ?title .
+
 </v:jsonset>
 
-<%-- This applies to both a new and an existing publication --%>
 <v:jsonset var="n3ForNewAuthorship">
-    @prefix core: <${vivoCore}> .
 
-    ?authorshipUri a core:Authorship ;
-                   core:linkedAuthor ?person .
-
-    ?person core:authorInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForExistingPub">
-    @prefix core: <${vivoCore}> .
 
-    ?authorshipUri core:linkedInformationResource ?pubUri .
-    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewPub">
-    @prefix core: <${vivoCore}> .
 
-    ?pubUri a ?pubType ;
-            <${label}> ?title .
-
-    ?authorshipUri core:linkedInformationResource ?pubUri .
-    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <c:set var="roleTypeLiteralOptions">
     ["", "Select type"],
     [ "http://vivoweb.org/ontology/core#FacultyMember", "Faculty Member" ],
-    [ "http://vivoweb.org/ontology/core#ResearcherRole", "Researcher" ],
-    [ "http://vivoweb.org/ontology/core#InvestigatorRole", "Investigator" ],
-    [ "http://vivoweb.org/ontology/core#PrincipalInvestigatorRole", "Principal Investigator" ],
-    [ "http://vivoweb.org/ontology/core#CoPrincipalInvestigatorRole", "Co-Principal Investigator" ]
+    [ "http://vivoweb.org/ontology/core#Librarian", "Librarian" ],
+    [ "http://vivoweb.org/ontology/core#EmeritusLibrarian", "Librarian Emeritus " ],
+    [ "http://vivoweb.org/ontology/core#NonAcademic", "Non-Academic" ],
+    [ "http://vivoweb.org/ontology/core#NonFacultyAcademic", "Non-Faculty Academic" ],
+    [ "http://vivoweb.org/ontology/core#EmeritusFaculty", "Emeritus Faculty Member" ]
+    [ "http://vivoweb.org/ontology/core#Student", "Student" ]
 </c:set>
 
 <c:set var="editjson" scope="request">
@@ -306,14 +293,8 @@ SPARQL queries for existing values. --%>
 <c:url var="acUrl" value="/autocomplete?tokenize=true" />
 <c:url var="sparqlQueryUrl" value="/ajax/sparqlQuery" />
 
-<%-- Must be all one line for JavaScript. --%>
-<c:set var="sparqlForAcFilter">
-PREFIX core: <${vivoCore}> SELECT DISTINCT ?person WHERE{?publication core:informationResourceInAuthorship ?authorship. ?authorship core:linkedAuthor ?person .}
-</c:set>
-
 <script type="text/javascript">
 var customFormData  = {
-    sparqlForAcFilter: '${sparqlForAcFilter}',
     sparqlQueryUrl: '${sparqlQueryUrl}',
     acUrl: '${acUrl}',
     submitButtonTextType: 'simple',
