@@ -23,7 +23,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%@ page import="com.hp.hpl.jena.rdf.model.Model" %>
 <%@ page import="com.hp.hpl.jena.vocabulary.XSD" %>
 
-<%@page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
+<%@ page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.beans.Individual" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.EditConfiguration" %>
@@ -42,10 +42,16 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
 <%@ taglib prefix="v" uri="http://vitro.mannlib.cornell.edu/vitro/tags" %>
 
+<%@ page import="edu.cornell.mannlib.vitro.webapp.edit.elements.DateTimeWithPrecision"%>
+<%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.DateTimeIntervalValidation"%>
+
 <%!
     public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addCustomRole.jsp");
     public static String nodeToRoleProp = "http://vivoweb.org/ontology/core#relatedRole";
 %>
+
+<c:set var="numDateFields">${! empty param.numDateFields ? param.numDateFields : 2 }</c:set>
+
 <%
 
     VitroRequest vreq = new VitroRequest(request);
@@ -108,6 +114,13 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
+
+<c:set var="dateTimeValueType" value="${vivoCore}DateTimeValue"/>
+<c:set var="dateTimePrecision" value="${vivoCore}dateTimePrecision"/>
+<c:set var="dateTimeValue" value="${vivoCore}dateTime"/>
+
+<c:set var="roleToInterval" value="${vivoCore}dateTimeInterval"/>
+<c:set var="intervalType" value="${vivoCore}DateTimeInterval"/>
 
 <%-- Unlike other custom forms, this form does not allow edits of existing authors, so there are no
 SPARQL queries for existing values. --%>
@@ -298,6 +311,17 @@ SPARQL queries for existing values. --%>
 	        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
 	        <input type="hidden" id="pubUri" name="pubUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
+            
+        <c:choose>
+            <c:when test="${numDateFields == 1}">
+                <v:input id="startField" label="Year ${yearHint}" size="7"/>
+            </c:when>
+            <c:otherwise>
+                <h4 class="label">Years of Participation in ###</h4>
+                <v:input id="startField" label="Start Year ${yearHint}" size="7"/>
+                <v:input id="endField" label="End Year ${yearHint}" size="7"/>
+            </c:otherwise>
+        </c:choose>
     </div>
 
     <p class="submit"><v:input type="submit" id="submit" value="${submitButtonText}" cancel="true" /></p>
