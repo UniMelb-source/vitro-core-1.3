@@ -23,7 +23,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%@ page import="com.hp.hpl.jena.rdf.model.Model" %>
 <%@ page import="com.hp.hpl.jena.vocabulary.XSD" %>
 
-<%@ page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
+<%@page import="edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement"%>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.beans.Individual" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.EditConfiguration" %>
@@ -113,23 +113,38 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 SPARQL queries for existing values. --%>
 
 <v:jsonset var="newPubTypeAssertion">
-
+    ?pubUri a ?pubType .
 </v:jsonset>
 
 <v:jsonset var="newPubNameAssertion">
-
+    ?pubUri <${label}> ?title .
 </v:jsonset>
 
+<%-- This applies to both a new and an existing publication --%>
 <v:jsonset var="n3ForNewAuthorship">
+    @prefix core: <${vivoCore}> .
 
+    ?authorshipUri a core:Authorship ;
+                   core:linkedAuthor ?person .
+
+    ?person core:authorInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForExistingPub">
+    @prefix core: <${vivoCore}> .
 
+    ?authorshipUri core:linkedInformationResource ?pubUri .
+    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewPub">
+    @prefix core: <${vivoCore}> .
 
+    ?pubUri a ?pubType ;
+            <${label}> ?title .
+
+    ?authorshipUri core:linkedInformationResource ?pubUri .
+    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
 </v:jsonset>
 
 <c:set var="roleTypeLiteralOptions">
@@ -294,7 +309,7 @@ SPARQL queries for existing values. --%>
 <c:url var="sparqlQueryUrl" value="/ajax/sparqlQuery" />
 
 <script type="text/javascript">
-var customFormData  = {
+var customFormData  = {    
     sparqlQueryUrl: '${sparqlQueryUrl}',
     acUrl: '${acUrl}',
     submitButtonTextType: 'simple',
