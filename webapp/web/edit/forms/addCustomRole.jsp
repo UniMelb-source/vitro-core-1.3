@@ -154,7 +154,7 @@ SPARQL queries for existing values. --%>
     [ "http://vivoweb.org/ontology/core#EmeritusLibrarian", "Librarian Emeritus " ],
     [ "http://vivoweb.org/ontology/core#NonAcademic", "Non-Academic" ],
     [ "http://vivoweb.org/ontology/core#NonFacultyAcademic", "Non-Faculty Academic" ],
-    [ "http://vivoweb.org/ontology/core#EmeritusFaculty", "Emeritus Faculty Member" ]
+    [ "http://vivoweb.org/ontology/core#EmeritusFaculty", "Emeritus Faculty Member" ],
     [ "http://vivoweb.org/ontology/core#Student", "Student" ]
 </c:set>
 
