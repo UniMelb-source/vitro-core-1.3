@@ -102,6 +102,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
     vreq.setAttribute("subjectUriJson", MiscWebUtils.escape(subjectUri));
 
     vreq.setAttribute("stringDatatypeUriJson", MiscWebUtils.escape(XSD.xstring.toString()));
+    vreq.setAttribute("gYearDatatypeUriJson", MiscWebUtils.escape(XSD.gYear.toString()));
 
     String intDatatypeUri = XSD.xint.toString();
     vreq.setAttribute("intDatatypeUri", intDatatypeUri);
@@ -115,12 +116,16 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
 
+<c:set var="startYearPred" value="${vivoCore}startYear" />
+<c:set var="endYearPred" value="${vivoCore}endYear" />
 <c:set var="dateTimeValueType" value="${vivoCore}DateTimeValue"/>
 <c:set var="dateTimePrecision" value="${vivoCore}dateTimePrecision"/>
 <c:set var="dateTimeValue" value="${vivoCore}dateTime"/>
 
 <c:set var="roleToInterval" value="${vivoCore}dateTimeInterval"/>
 <c:set var="intervalType" value="${vivoCore}DateTimeInterval"/>
+<c:set var="intervalToStart" value="${vivoCore}start"/>
+<c:set var="intervalToEnd" value="${vivoCore}end"/>
 
 <%-- Unlike other custom forms, this form does not allow edits of existing authors, so there are no
 SPARQL queries for existing values. --%>
@@ -231,6 +236,28 @@ SPARQL queries for existing values. --%>
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : ["${n3ForExistingPub}"]
+      }
+      "startField" : {
+         "newResource"      : "false",
+         "validators"       : [ ],
+         "optionsType"      : "UNDEFINED",
+         "literalOptions"   : [ ],
+         "predicateUri"     : "",
+         "objectClassUri"   : "",
+         "rangeDatatypeUri" : "",
+         "rangeLang"        : "",
+         "assertions"       : [ "${n3ForStart}" ]
+      },
+      "endField" : {
+         "newResource"      : "false",
+         "validators"       : [ ],
+         "optionsType"      : "UNDEFINED",
+         "literalOptions"   : [ ],
+         "predicateUri"     : "",
+         "objectClassUri"   : "",
+         "rangeDatatypeUri" : "",
+         "rangeLang"        : "",
+         "assertions"       : ["${n3ForEnd}" ]
       }
   }
 }
