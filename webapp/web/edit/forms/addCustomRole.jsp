@@ -254,7 +254,7 @@ SPARQL queries for existing values. --%>
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : ["${n3ForExistingPub}"]
-      }
+      },
       "startField" : {
          "newResource"      : "false",
          "validators"       : [ ],
