@@ -384,7 +384,7 @@ SPARQL queries for existing values. --%>
 
     <div class="fullViewOnly">
 
-       <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" /></p>
+       <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" id="roleTypeSelector" /></p>
        
 	   <p><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
