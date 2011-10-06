@@ -365,7 +365,7 @@ SPARQL queries for existing values. --%>
 
     <div class="fullViewOnly">
 
-	   <p class="inline"><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
