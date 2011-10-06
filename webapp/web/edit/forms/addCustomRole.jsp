@@ -165,6 +165,24 @@ SPARQL queries for existing values. --%>
     ?pubUri core:informationResourceInAuthorship ?authorshipUri .
 </v:jsonset>
 
+<v:jsonset var="n3ForStart">
+    ?role      <${roleToInterval}> ?intervalNode .
+    ?intervalNode  <${type}> <${intervalType}> .
+    ?intervalNode <${intervalToStart}> ?startNode .
+    ?startNode  <${type}> <${dateTimeValueType}> .
+    ?startNode  <${dateTimeValue}> ?startField-value .
+    ?startNode  <${dateTimePrecision}> ?startField-precision .
+</v:jsonset>
+
+<v:jsonset var="n3ForEnd">
+    ?role      <${roleToInterval}> ?intervalNode .
+    ?intervalNode  <${type}> <${intervalType}> .
+    ?intervalNode <${intervalToEnd}> ?endNode .
+    ?endNode  <${type}> <${dateTimeValueType}> .
+    ?endNode  <${dateTimeValue}> ?endField-value .
+    ?endNode  <${dateTimePrecision}> ?endField-precision .
+</v:jsonset>
+
 <c:set var="roleTypeLiteralOptions">
     ["", "Select type"],
     [ "http://vivoweb.org/ontology/core#FacultyMember", "Faculty Member" ],
