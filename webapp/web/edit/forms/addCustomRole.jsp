@@ -243,9 +243,23 @@ SPARQL queries for existing values. --%>
     if (editConfig == null) {
         editConfig = new EditConfiguration((String) request.getAttribute("editjson"));
         EditConfiguration.putConfigInSession(editConfig,session);
+
+        //set up date time edit elements
+        Field startField = editConfig.getField("startField");
+        startField.setEditElement(
+                new DateTimeWithPrecision(startField,
+                        VitroVocabulary.Precision.YEAR.uri(),
+                        VitroVocabulary.Precision.NONE.uri()));
+        Field endField = editConfig.getField("endField");
+        endField.setEditElement(
+                new DateTimeWithPrecision(endField,
+                        VitroVocabulary.Precision.YEAR.uri(),
+                        VitroVocabulary.Precision.NONE.uri()));
     }
 
-    editConfig.addValidator(new PersonHasPublicationValidator());
+    editConfig.addValidator(new DateTimeIntervalValidation("startField","endField") );
+
+    //editConfig.addValidator(new PersonHasPublicationValidator());
 
     Model model = (Model) application.getAttribute("jenaOntModel");
 
@@ -285,6 +299,7 @@ SPARQL queries for existing values. --%>
 </c:choose>
 
 <c:set var="requiredHint" value="<span class='requiredHint'> *</span>" />
+<c:set var="yearHint" value="<span class='hint'> (YYYY)</span>" />
 
 <jsp:include page="${preForm}" />
 
@@ -300,11 +315,11 @@ SPARQL queries for existing values. --%>
 <%-- DO NOT CHANGE IDS, CLASSES, OR HTML STRUCTURE IN THIS FORM WITHOUT UNDERSTANDING THE IMPACT ON THE JAVASCRIPT! --%>
 <form id="addPublicationForm" class="customForm noIE67"  action="<c:url value="/edit/processRdfForm2.jsp"/>" >
 
-    <p class="inline"><v:input type="select" label="Publication Type ${requiredHint}" name="pubType" id="typeSelector" /></p>
+    <p class="inline"><v:input type="select" label="Person Type ${requiredHint}" name="pubType" id="typeSelector" /></p>
 
     <div class="fullViewOnly">
 
-	   <p><v:input type="text" id="relatedIndLabel" name="title" label="Title ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p class="inline"><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
