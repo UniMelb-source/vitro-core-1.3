@@ -382,9 +382,7 @@ SPARQL queries for existing values. --%>
 
     <p class="inline"><v:input type="select" label="Person Type ${requiredHint}" name="pubType" id="typeSelector" /></p>
 
-    <div class="fullViewOnly">
-
-       <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" id="roleTypeSelector" /></p>
+    <div class="fullViewOnly">       
        
 	   <p><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
@@ -393,6 +391,10 @@ SPARQL queries for existing values. --%>
 	        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
 	        <input type="hidden" id="pubUri" name="pubUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
+
+        <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" id="roleTypeSelector" /></p>
+
+        <br><br>
             
         <c:choose>
             <c:when test="${numDateFields == 1}">
