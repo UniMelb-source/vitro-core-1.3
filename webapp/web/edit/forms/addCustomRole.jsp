@@ -184,7 +184,7 @@ SPARQL queries for existing values. --%>
     ?endNode  <${dateTimePrecision}> ?endField-precision .
 </v:jsonset>
 
-<c:set var="roleTypeLiteralOptions">
+<c:set var="personTypeLiteralOptions">
     ["", "Select type"],
     [ "http://vivoweb.org/ontology/core#FacultyMember", "Faculty Member" ],
     [ "http://vivoweb.org/ontology/core#Librarian", "Librarian" ],
@@ -193,6 +193,14 @@ SPARQL queries for existing values. --%>
     [ "http://vivoweb.org/ontology/core#NonFacultyAcademic", "Non-Faculty Academic" ],
     [ "http://vivoweb.org/ontology/core#EmeritusFaculty", "Emeritus Faculty Member" ],
     [ "http://vivoweb.org/ontology/core#Student", "Student" ]
+</c:set>
+
+<c:set var="roleTypeLiteralOptions">
+    ["", "Select type"],
+    [ "http://vivoweb.org/ontology/core#ResearcherRole", "Researcher" ],
+    [ "http://vivoweb.org/ontology/core#InvestigatorRole", "Investigator" ],
+    [ "http://vivoweb.org/ontology/core#PrincipalInvestigatorRole", "Principal Investigator" ],
+    [ "http://vivoweb.org/ontology/core#CoPrincipalInvestigatorRole", "Co-Principal Investigator" ]
 </c:set>
 
 <c:set var="editjson" scope="request">
@@ -238,12 +246,23 @@ SPARQL queries for existing values. --%>
          "newResource"      : "false",
          "validators"       : [ ],
          "optionsType"      : "HARDCODED_LITERALS",
-         "literalOptions"   : [ ${roleTypeLiteralOptions} ],
+         "literalOptions"   : [ ${personTypeLiteralOptions} ],
          "predicateUri"     : "",
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : [ "${newPubTypeAssertion}" ]
+      },
+      "roleType" : {
+         "newResource"      : "false",
+         "validators"       : [ ],
+         "optionsType"      : "HARDCODED_LITERALS",
+         "literalOptions"   : [ ${roleTypeLiteralOptions} ],
+         "predicateUri"     : "",
+         "objectClassUri"   : "",
+         "rangeDatatypeUri" : "",
+         "rangeLang"        : "",
+         "assertions"       : [ "" ]
       },
       "pubUri" : {
          "newResource"      : "true",
@@ -365,6 +384,8 @@ SPARQL queries for existing values. --%>
 
     <div class="fullViewOnly">
 
+       <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" /></p>
+       
 	   <p><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
