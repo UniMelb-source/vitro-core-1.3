@@ -131,15 +131,16 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 SPARQL queries for existing values. --%>
 
 <v:jsonset var="newRoleTypeAssertion">
-    ?roleUri a ?roleType .
+    ?roleUri a ?roleTypeUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewRole">
-    @prefix core: <${vivoCore}> .    
-</v:jsonset>
-
-<v:jsonset var="n3ForNewRoleRelation">
     @prefix core: <${vivoCore}> .
+    ?roleUri a core:Role ;
+               ?roleUri core:roleOf ?personUri .
+
+    ?personUri core:hasRole ?roleUri .
+    ?roleUri core:relatedRole ?activity .
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
@@ -185,16 +186,15 @@ SPARQL queries for existing values. --%>
     "editKey" : "${editKey}",
     "urlPatternToReturnTo" : "/individual",
 
-    "subject"   : ["project", "${subjectUriJson}" ],
+    "subject"   : ["activity", "${subjectUriJson}" ],
     "predicate" : ["predicate", "${predicateUriJson}" ],
     "object"    : ["roleUri", "${objectUriJson}", "URI" ],
 
     "n3required"    : [ "${n3ForNewRole}" ],
 
-    "n3optional"    : [ "${n3ForNewRoleRelation}", "${newRoleTypeAssertion}" ],
+    "n3optional"    : [ "${newRoleTypeAssertion}" ],
 
-    "newResources"  : { "roleUri" : "${defaultNamespace}",
-                        "personUri" : "${defaultNamespace}" },
+    "newResources"  : { "roleUri" : "${defaultNamespace}" },
 
     "urisInScope"    : { },
     "literalsInScope": { },
@@ -367,8 +367,7 @@ SPARQL queries for existing values. --%>
 	        <input type="hidden" id="personUri" name="personUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
 
-        <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" id="roleTypeSelector" /></p>
-
+        <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleTypeUri" id="roleTypeUri" /></p>
         <br><br>
             
         <c:choose>
