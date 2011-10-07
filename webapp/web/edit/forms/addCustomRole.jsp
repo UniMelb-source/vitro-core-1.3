@@ -131,39 +131,14 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%-- Unlike other custom forms, this form does not allow edits of existing authors, so there are no
 SPARQL queries for existing values. --%>
 
-<v:jsonset var="newPubTypeAssertion">
-    ?pubUri a ?pubType .
+<v:jsonset var="newRoleTypeAssertion">
+    
 </v:jsonset>
 
-<v:jsonset var="newPubNameAssertion">
-    ?pubUri <${label}> ?title .
-</v:jsonset>
-
-<%-- This applies to both a new and an existing publication --%>
-<v:jsonset var="n3ForNewAuthorship">
+<v:jsonset var="n3ForNewRole">
     @prefix core: <${vivoCore}> .
 
-    ?authorshipUri a core:Authorship ;
-                   core:linkedAuthor ?person .
-
-    ?person core:authorInAuthorship ?authorshipUri .
-</v:jsonset>
-
-<v:jsonset var="n3ForExistingPub">
-    @prefix core: <${vivoCore}> .
-
-    ?authorshipUri core:linkedInformationResource ?pubUri .
-    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
-</v:jsonset>
-
-<v:jsonset var="n3ForNewPub">
-    @prefix core: <${vivoCore}> .
-
-    ?pubUri a ?pubType ;
-            <${label}> ?title .
-
-    ?authorshipUri core:linkedInformationResource ?pubUri .
-    ?pubUri core:informationResourceInAuthorship ?authorshipUri .
+    
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
@@ -219,11 +194,11 @@ SPARQL queries for existing values. --%>
                         "${newPubNameAssertion}", "${newPubTypeAssertion}" ],
 
     "newResources"  : { "authorshipUri" : "${defaultNamespace}",
-                        "pubUri" : "${defaultNamespace}" },
+                        "personUri" : "${defaultNamespace}" },
 
     "urisInScope"    : { },
     "literalsInScope": { },
-    "urisOnForm"     : [ "pubUri", "pubType" ],
+    "urisOnForm"     : [ "personUri", "pubType" ],
     "literalsOnForm" : [ "title" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
@@ -264,7 +239,7 @@ SPARQL queries for existing values. --%>
          "rangeLang"        : "",
          "assertions"       : [ "" ]
       },
-      "pubUri" : {
+      "personUri" : {
          "newResource"      : "true",
          "validators"       : [ ],
          "optionsType"      : "UNDEFINED",
@@ -335,7 +310,7 @@ SPARQL queries for existing values. --%>
     }
 
     // Return to person, not publication. See NIHVIVO-1464.
-  	// editConfig.setEntityToReturnTo("?pubUri");
+  	// editConfig.setEntityToReturnTo("?personUri");
 
     List<String> customJs = new ArrayList<String>(Arrays.asList(JavaScript.JQUERY_UI.path(),
                                                                 JavaScript.CUSTOM_FORM_UTILS.path(),
@@ -355,11 +330,11 @@ SPARQL queries for existing values. --%>
 <c:choose>
     <c:when test='${editMode == "add"}'>
         <c:set var="titleVerb" value="Create" />
-        <c:set var="submitButtonText" value="Publication" />
+        <c:set var="submitButtonText" value="Role" />
     </c:when>
     <c:otherwise>
         <c:set var="titleVerb" value="Edit" />
-        <c:set var="submitButtonText" value="Edit Publication" />
+        <c:set var="submitButtonText" value="Edit Role" />
     </c:otherwise>
 </c:choose>
 
@@ -373,14 +348,14 @@ SPARQL queries for existing values. --%>
       multiple Position individuals.</div>
 <% }else{ %>
 
-<h2>${titleVerb} publication entry for <%= subjectName %></h2>
+<h2>${titleVerb} role entry for <%= subjectName %></h2>
 
 <%@ include file="unsupportedBrowserMessage.jsp" %>
 
 <%-- DO NOT CHANGE IDS, CLASSES, OR HTML STRUCTURE IN THIS FORM WITHOUT UNDERSTANDING THE IMPACT ON THE JAVASCRIPT! --%>
-<form id="addPublicationForm" class="customForm noIE67"  action="<c:url value="/edit/processRdfForm2.jsp"/>" >
+<form id="addRoleForm" class="customForm noIE67"  action="<c:url value="/edit/processRdfForm2.jsp"/>" >
 
-    <p class="inline"><v:input type="select" label="Person Type ${requiredHint}" name="pubType" id="typeSelector" /></p>
+    <p class="inline"><v:input type="select" label="Person Type ${requiredHint}" name="personType" id="typeSelector" /></p>
 
     <div class="fullViewOnly">       
        
@@ -389,7 +364,7 @@ SPARQL queries for existing values. --%>
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
 	        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
-	        <input type="hidden" id="pubUri" name="pubUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
+	        <input type="hidden" id="personUri" name="personUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
 
         <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleType" id="roleTypeSelector" /></p>
