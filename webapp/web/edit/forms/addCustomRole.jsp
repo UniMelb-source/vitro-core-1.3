@@ -27,7 +27,6 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <%@ page import="edu.cornell.mannlib.vitro.webapp.beans.Individual" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.EditConfiguration" %>
-<%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.PersonHasPublicationValidator" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.controller.VitroRequest" %>
 <%@ page import="edu.cornell.mannlib.vitro.webapp.web.MiscWebUtils" %>
@@ -132,13 +131,15 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 SPARQL queries for existing values. --%>
 
 <v:jsonset var="newRoleTypeAssertion">
-    
+    ?roleUri a ?roleType .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewRole">
-    @prefix core: <${vivoCore}> .
+    @prefix core: <${vivoCore}> .    
+</v:jsonset>
 
-    
+<v:jsonset var="n3ForNewRoleRelation">
+    @prefix core: <${vivoCore}> .
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
@@ -184,29 +185,28 @@ SPARQL queries for existing values. --%>
     "editKey" : "${editKey}",
     "urlPatternToReturnTo" : "/individual",
 
-    "subject"   : ["person", "${subjectUriJson}" ],
+    "subject"   : ["project", "${subjectUriJson}" ],
     "predicate" : ["predicate", "${predicateUriJson}" ],
-    "object"    : ["authorshipUri", "${objectUriJson}", "URI" ],
+    "object"    : ["roleUri", "${objectUriJson}", "URI" ],
 
-    "n3required"    : [ "${n3ForNewAuthorship}" ],
+    "n3required"    : [ "${n3ForNewRole}" ],
 
-    "n3optional"    : [ "${n3ForExistingPub}", "${n3ForNewPub}",
-                        "${newPubNameAssertion}", "${newPubTypeAssertion}" ],
+    "n3optional"    : [ "${n3ForNewRoleRelation}", "${newRoleTypeAssertion}" ],
 
-    "newResources"  : { "authorshipUri" : "${defaultNamespace}",
+    "newResources"  : { "roleUri" : "${defaultNamespace}",
                         "personUri" : "${defaultNamespace}" },
 
     "urisInScope"    : { },
     "literalsInScope": { },
-    "urisOnForm"     : [ "personUri", "pubType" ],
-    "literalsOnForm" : [ "title" ],
+    "urisOnForm"     : [ "personUri", "roleType" ],
+    "literalsOnForm" : [ "name" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "title" : {
+      "name" : {
          "newResource"      : "false",
          "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
          "optionsType"      : "UNDEFINED",
@@ -215,9 +215,9 @@ SPARQL queries for existing values. --%>
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "${stringDatatypeUriJson}",
          "rangeLang"        : "",
-         "assertions"       : [ "${n3ForNewPub}" ]
+         "assertions"       : [ "${n3ForNewRoleRelation}" ]
       },
-      "pubType" : {
+      "personType" : {
          "newResource"      : "false",
          "validators"       : [ ],
          "optionsType"      : "HARDCODED_LITERALS",
@@ -226,7 +226,7 @@ SPARQL queries for existing values. --%>
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
-         "assertions"       : [ "${newPubTypeAssertion}" ]
+         "assertions"       : [ "" ]
       },
       "roleType" : {
          "newResource"      : "false",
@@ -237,7 +237,7 @@ SPARQL queries for existing values. --%>
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
-         "assertions"       : [ "" ]
+         "assertions"       : [ "${newRoleTypeAssertion}" ]
       },
       "personUri" : {
          "newResource"      : "true",
@@ -248,7 +248,7 @@ SPARQL queries for existing values. --%>
          "objectClassUri"   : "${personClassUriJson}",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
-         "assertions"       : ["${n3ForExistingPub}"]
+         "assertions"       : [""]
       },
       "startField" : {
          "newResource"      : "false",
@@ -359,7 +359,7 @@ SPARQL queries for existing values. --%>
 
     <div class="fullViewOnly">       
        
-	   <p><v:input type="text" id="relatedIndLabel" name="Name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p><v:input type="text" id="relatedIndLabel" name="name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
