@@ -76,8 +76,7 @@ are well formed.
     {        
         if(entry.getKey().startsWith("inferredStatements"))
         {
-            String[] tempArray = entry.getValue();
-            log.info("DGC || " + tempArray[0]);
+            String[] tempArray = entry.getValue();            
             inferredStatements.add(tempArray[0]);
         }
     }
@@ -240,6 +239,17 @@ are well formed.
         n3Optional = n3Subber.subInLiterals( editConfig.getLiteralsInScope(), n3Optional);
         if(log.isDebugEnabled()) logRequiredOpt("substituted in Literals from scope ",n3Required,n3Optional);
         
+        //David debug
+        for(String s : n3Required)
+        {
+            log.info("DGC - " s);
+        }
+
+        for(String s : n3Optional)
+        {
+            log.info("DGC - " s);
+        }
+
         /* ****************** New Resources ********************** */
         Map<String,String> varToNewResource = newToUriMap(editConfig.getNewResources(),wdf);         
 
