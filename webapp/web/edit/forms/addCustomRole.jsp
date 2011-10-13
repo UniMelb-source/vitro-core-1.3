@@ -198,15 +198,15 @@ SPARQL queries for existing values. --%>
 
     "urisInScope"    : { },
     "literalsInScope": { },
-    "urisOnForm"     : [ "personUri", "roleType" ],
-    "literalsOnForm" : [ "name" ],
+    "urisOnForm"     : [ "personUri", "roleTypeUri" ],
+    "literalsOnForm" : [ "personName" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "name" : {
+      "personName" : {
          "newResource"      : "false",
          "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
          "optionsType"      : "UNDEFINED",
@@ -228,7 +228,7 @@ SPARQL queries for existing values. --%>
          "rangeLang"        : "",
          "assertions"       : [ "" ]
       },
-      "roleType" : {
+      "roleTypeUri" : {
          "newResource"      : "false",
          "validators"       : [ ],
          "optionsType"      : "HARDCODED_LITERALS",
@@ -359,7 +359,7 @@ SPARQL queries for existing values. --%>
 
     <div class="fullViewOnly">       
        
-	   <p><v:input type="text" id="relatedIndLabel" name="name" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p><v:input type="text" id="relatedIndLabel" name="personName" label="Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
