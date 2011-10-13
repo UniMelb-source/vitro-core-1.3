@@ -136,6 +136,7 @@ SPARQL queries for existing values. --%>
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
     ?roleUri core:roleIn ?activity .
+    ?activity core:relatedRole ?roleUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewRole">
