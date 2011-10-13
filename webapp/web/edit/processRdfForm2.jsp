@@ -242,12 +242,12 @@ are well formed.
         //David debug
         for(String s : n3Required)
         {
-            log.info("DGC - " s);
+            log.info("DGC - " + s);
         }
 
         for(String s : n3Optional)
         {
-            log.info("DGC - " s);
+            log.info("DGC - " + s);
         }
 
         /* ****************** New Resources ********************** */
