@@ -131,9 +131,9 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 SPARQL queries for existing values. --%>
 
 <v:jsonset var="newRoleTypeAssertion">
+    @prefix core: <${vivoCore}> .
     ?roleUri a ?roleTypeUri .
     ?roleUri core:roleOf ?personUri .
-
     ?personUri core:hasRole ?roleUri .
     ?roleUri core:relatedRole ?activity .
 </v:jsonset>
