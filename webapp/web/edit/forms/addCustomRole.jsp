@@ -132,15 +132,15 @@ SPARQL queries for existing values. --%>
 
 <v:jsonset var="newRoleTypeAssertion">
     ?roleUri a ?roleTypeUri .
+    ?roleUri core:roleOf ?personUri .
+
+    ?personUri core:hasRole ?roleUri .
+    ?roleUri core:relatedRole ?activity .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewRole">
     @prefix core: <${vivoCore}> .
     ?roleUri a core:Role .
-    ?roleUri core:roleOf ?personUri .
-
-    ?personUri core:hasRole ?roleUri .
-    ?roleUri core:relatedRole ?activity .
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
@@ -199,24 +199,13 @@ SPARQL queries for existing values. --%>
     "urisInScope"    : { },
     "literalsInScope": { },
     "urisOnForm"     : [ "personUri", "roleTypeUri" ],
-    "literalsOnForm" : [ "personName" ],
+    "literalsOnForm" : [ ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "personName" : {
-         "newResource"      : "false",
-         "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
-         "optionsType"      : "UNDEFINED",
-         "literalOptions"   : [ ],
-         "predicateUri"     : "",
-         "objectClassUri"   : "",
-         "rangeDatatypeUri" : "${stringDatatypeUriJson}",
-         "rangeLang"        : "",
-         "assertions"       : [ "${n3ForNewRoleRelation}" ]
-      },
       "personType" : {
          "newResource"      : "false",
          "validators"       : [ ],
