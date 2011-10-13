@@ -237,8 +237,18 @@ are well formed.
         
         n3Required = n3Subber.subInLiterals( editConfig.getLiteralsInScope(), n3Required);
         n3Optional = n3Subber.subInLiterals( editConfig.getLiteralsInScope(), n3Optional);
-        if(log.isDebugEnabled()) logRequiredOpt("substituted in Literals from scope ",n3Required,n3Optional);
-        
+        if(log.isDebugEnabled()) logRequiredOpt("substituted in Literals from scope ",n3Required,n3Optional);        
+
+        /* ****************** New Resources ********************** */
+        Map<String,String> varToNewResource = newToUriMap(editConfig.getNewResources(),wdf);         
+
+        //if we are editing an existing prop, no new resources will be substituted since the var will
+        //have already been substituted in by urisInScope.
+        n3Required = n3Subber.subInUris( varToNewResource, n3Required);
+        n3Optional = n3Subber.subInUris( varToNewResource, n3Optional);
+        if(log.isDebugEnabled()) logRequiredOpt("substituted in URIs for new resources  ",n3Required,n3Optional);               
+        entToReturnTo = n3Subber.subInUris(varToNewResource, entToReturnTo);
+
         //David debug
         for(String s : n3Required)
         {
@@ -250,16 +260,6 @@ are well formed.
             log.info("DGC - " + s);
         }
 
-        /* ****************** New Resources ********************** */
-        Map<String,String> varToNewResource = newToUriMap(editConfig.getNewResources(),wdf);         
-
-        //if we are editing an existing prop, no new resources will be substituted since the var will
-        //have already been substituted in by urisInScope.
-        n3Required = n3Subber.subInUris( varToNewResource, n3Required);
-        n3Optional = n3Subber.subInUris( varToNewResource, n3Optional);
-        if(log.isDebugEnabled()) logRequiredOpt("substituted in URIs for new resources  ",n3Required,n3Optional);               
-        entToReturnTo = n3Subber.subInUris(varToNewResource, entToReturnTo);
-        
         //deal with required N3
         List<Model> requiredNewModels = new ArrayList<Model>();
          for(String n3 : n3Required){
