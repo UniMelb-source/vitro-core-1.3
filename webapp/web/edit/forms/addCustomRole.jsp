@@ -136,8 +136,8 @@ SPARQL queries for existing values. --%>
 
 <v:jsonset var="n3ForNewRole">
     @prefix core: <${vivoCore}> .
-    ?roleUri a core:Role ;
-               ?roleUri core:roleOf ?personUri .
+    ?roleUri a core:Role .
+    ?roleUri core:roleOf ?personUri .
 
     ?personUri core:hasRole ?roleUri .
     ?roleUri core:relatedRole ?activity .
