@@ -142,7 +142,7 @@ SPARQL queries for existing values. --%>
     ?personUri core:hasRole ?roleUri .
     
     ?roleUri core:researcherRoleOf ?personUri .
-    ?personUri core:core:hasResearcherRole ?roleUri .
+    ?personUri core:hasResearcherRole ?roleUri .
     
     ?roleUri core:roleIn ?activity .
     ?activity core:relatedRole ?roleUri .
