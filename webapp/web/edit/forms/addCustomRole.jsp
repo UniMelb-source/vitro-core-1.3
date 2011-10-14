@@ -113,6 +113,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <c:set var="vivoOnt" value="http://vivoweb.org/ontology" />
 <c:set var="vivoCore" value="${vivoOnt}/core#" />
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
+<c:set var="rdf" value="<%= VitroVocabulary.RDF %>" />
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
 
@@ -132,16 +133,22 @@ SPARQL queries for existing values. --%>
 
 <v:jsonset var="newRoleTypeAssertion">
     @prefix core: <${vivoCore}> .
-    ?roleUri a ?roleTypeUri .
+    @prefix rdf:  <${rdf}> .
+    @prefix rdfs:  <${rdfs}> .
+    
+    ?roleUri rdf:type <http://www.w3.org/2002/07/owl#Thing> .    
+    ?roleUri rdfs:label ?title
+
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
+    
     ?roleUri core:roleIn ?activity .
     ?activity core:relatedRole ?roleUri .
 </v:jsonset>
 
 <v:jsonset var="n3ForNewRole">
-    @prefix core: <${vivoCore}> .
-    ?roleUri a core:Role .
+    @prefix rdf:  <${rdf}> .
+    ?roleUri rdf:type ?roleTypeUri .    
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
@@ -207,6 +214,17 @@ SPARQL queries for existing values. --%>
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
+      "title" : {
+         "newResource"      : "false",
+         "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
+         "optionsType"      : "UNDEFINED",
+         "literalOptions"   : [ ],
+         "predicateUri"     : "",
+         "objectClassUri"   : "",
+         "rangeDatatypeUri" : "${stringDatatypeUriJson}",
+         "rangeLang"        : "",
+         "assertions"       : [ "${newRoleTypeAssertion}" ]
+      },
       "personType" : {
          "newResource"      : "false",
          "validators"       : [ ],
@@ -358,6 +376,7 @@ SPARQL queries for existing values. --%>
 	    </div>
 
         <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleTypeUri" id="roleTypeUri" /></p>
+        <p><v:input type="text" id="relatedRoleLabel" name="roleLabel" label="Role Label ${requiredHint}" size="50" /></p>
         <br><br>
             
         <c:choose>
