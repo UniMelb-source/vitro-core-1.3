@@ -231,6 +231,17 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
   }
 </v:jsonset>
 
+<v:jsonset var="existingPersonTypeQuery" >
+  PREFIX core: <${vivoCore}>
+  PREFIX rdf: <${rdf}>
+
+  SELECT ?existingPersonType WHERE {
+    ?activity core:relatedRole ?roleUri .
+    ?roleUri core:roleOf ?personUri .
+    ?personUri rdf:type ?existingPersonType .
+  }
+</v:jsonset>
+
 <v:jsonset var="existingRoleTypeQuery" >
   PREFIX core: <${vivoCore}>
   PREFIX rdf: <${rdf}>
@@ -292,6 +303,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
         "endField-value"     : "${existingEndDateQuery}"
     },
     "sparqlForExistingUris" : {
+        "personType"            : "${existingPersonTypeQuery}" ,
         "roleTypeUri"           : "${existingRoleTypeQuery}" ,
         "intervalNode"          : "${existingIntervalNodeQuery}",
         "startNode"             : "${existingStartNodeQuery}",
