@@ -21,7 +21,7 @@
 
 <div align="center">
 <table cellpadding="4" cellspacing="2">
-	<tr><th colspan="${colspan}">
+	<tr><th>
 	<div class="entryFormHead">
 		<h2>${title}</h2>
 			<c:choose>
@@ -41,7 +41,7 @@
 	<jsp:include page="${formJsp}"/>
 	
 	<tr class="editformcell">
-		<td colspan="${colspan}" align="center">
+		<td align="center">
 			<c:choose>
 				<c:when test='${_action == "insert"}'>
 					<input id="primaryAction" type="submit" class="form-button" name="_insert" value="Create New Record"/>
