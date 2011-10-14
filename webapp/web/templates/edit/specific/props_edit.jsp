@@ -91,10 +91,10 @@
     </td>
 </tr>
 
-<tr><td colspan="3"><hr/></td></tr>
+<tr><td><hr/></td></tr>
 <!-- _____________________________________________ superproperties __________________________________________ -->
 <tr valign="bottom" align="center">
-	<td colspan="2" valign="bottom" align="left">
+	<td valign="bottom" align="left">
 	   <c:if test="${!empty superproperties}">
 		<form action="props2PropsOp" method="post">
 			<ul style="list-style-type:none;">
@@ -123,10 +123,10 @@
 		</form>
 	</td>
 </tr>
-<tr><td colspan="3"><hr/></td></tr>			
+<tr><td><hr/></td></tr>			
 <!-- _______________________________________________ subproperties _____________________________________________ -->
 <tr valign="bottom" align="center">
-	<td colspan="2" valign="bottom" align="left">
+	<td valign="bottom" align="left">
 	    <c:if test="${!empty subproperties}">
 		<form action="props2PropsOp" method="post">
 			<ul style="list-style-type:none;">
@@ -163,7 +163,7 @@
 
 <!-- _______________________________________________ equivalent properties _____________________________________________ -->
 <tr valign="bottom" align="center">
-    <td colspan="2" valign="bottom" align="left">
+    <td valign="bottom" align="left">
         <c:if test="${!empty equivalentProperties}">
         <form action="props2PropsOp" method="post">
             <ul style="list-style-type:none;">
