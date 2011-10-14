@@ -207,7 +207,7 @@ SPARQL queries for existing values. --%>
     "newResources"  : { "roleUri" : "${defaultNamespace}",
                         "intervalNode" : "${defaultNamespace}",
                         "startNode" : "${defaultNamespace}",
-                        "endNode" : "${defaultNamespace}" }
+                        "endNode" : "${defaultNamespace}" },
 
     "urisInScope"    : { },
     "literalsInScope": { },
