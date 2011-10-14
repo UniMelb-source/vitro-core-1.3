@@ -105,12 +105,12 @@
         	</form>
     	</td>
     </tr>
-    <tr><td colspan="3"><hr/></td></tr>
+    <tr><td><hr/></td></tr>
     
     <!-- TYPES --> 
     
     <tr valign="bottom" align="center">
-	<td colspan="1" valign="bottom" align="left">
+	<td valign="bottom" align="left">
 	    <c:if test="${!empty types}">
 		<form action="individualTypeOp" method="get">
 			<ul style="list-style-type:none;">
@@ -137,7 +137,7 @@
 		</form>
 	</td>    
 
-<td colspan="2">    
+<td>    
     &nbsp; <!--  empty now that flags are gone -->
 </td>
 
@@ -149,7 +149,7 @@
     	<div id="entityUriForDwr" style="visibility:hidden;">${individual.URI}</div>
     		<div>
         	<table class="form-background" border="0" cellpadding="2" cellspacing="2" width="100%">
-            	<tr><td colspan="3" align="center"><h2>Object (individual-to-individual) Property Statements</h2></td></tr>
+            	<tr><td align="center"><h2>Object (individual-to-individual) Property Statements</h2></td></tr>
             	<tr><td><input id="newPropButton" class="form-button" type="button" value="add new statement" onclick="newProp();"/></td>
                 	<td><input class="form-button" type="button" value="refresh list" onclick="update();"/></td>
             	</tr>
@@ -160,10 +160,10 @@
         	<div id="propertyTableDiv">
             	<table class="form-background" border="1" width="100%" align="center">
                 	<thead class="form-table-head">
-                	<tr><th rowspan="1" colspan="1">Subject</th>
-                    	<th rowspan="1" colspan="1">Predicate</th>
-                    	<th rowspan="1" colspan="1">Object</th>
-                    	<th colspan="3" rowspan="1">actions</th>
+                	<tr><th>Subject</th>
+                    	<th>Predicate</th>
+                    	<th>Object</th>
+                    	<th>actions</th>
                 	</tr>
                 	</thead>
                 	<tbody id="propbody">
@@ -178,7 +178,7 @@
         	<div id="propeditdiv" style="display:none" class ="form-editingRow">
             	<table width="100%">
                 	<tr><td>Predicate:</td>
-                    	<td colspan="9">
+                    	<td>
                     		<select id="propertyList" class="form-item"
                                     onchange="fillRangeVClassList();">
                             	<option value="">select property</option>
@@ -186,14 +186,14 @@
                         </td>
                     </tr>
                 	<tr><td>Object Class:</td>
-                    	<td colspan="9">
+                    	<td>
                     		<select id="vClassList" class="form-item" onchange="fillEntsList();">
                             	<option value="">select type</option>
                             </select>
                         </td>
                 	</tr>
                 	<tr><td>Object Individual:</td>
-                    	<td colspan="9"><select id="entitiesList" class="form-item"><option>select individual</option></select></td>
+                    	<td><select id="entitiesList" class="form-item"><option>select individual</option></select></td>
                 	</tr>
                 	
                 	
