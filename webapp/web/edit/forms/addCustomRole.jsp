@@ -239,6 +239,16 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
     ?activity core:relatedRole ?roleUri .
     ?roleUri core:roleOf ?personUri .
     ?personUri rdf:type ?existingPersonType .
+
+        FILTER (
+            ?existingPersonType = core:FacultyMember ||
+            ?existingPersonType = core:Librarian ||
+            ?existingPersonType = core:EmeritusLibrarian ||
+            ?existingPersonType = core:NonAcademic ||
+            ?existingPersonType = core:NonFacultyAcademic ||
+            ?existingPersonType = core:EmeritusFaculty ||
+            ?existingPersonType = core:Student
+            )
   }
 </v:jsonset>
 
@@ -249,6 +259,13 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
   SELECT ?existingRoleType WHERE {
     ?activity core:relatedRole ?roleUri .
     ?roleUri rdf:type ?existingRoleType .
+
+        FILTER (
+            ?existingRoleType = core:ResearcherRole ||
+            ?existingRoleType = core:InvestigatorRole ||
+            ?existingRoleType = core:PrincipalInvestigatorRole ||
+            ?existingRoleType = core:CoPrincipalInvestigatorRole
+            )
   }
 </v:jsonset>
 
