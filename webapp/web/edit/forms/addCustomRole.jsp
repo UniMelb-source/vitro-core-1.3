@@ -78,20 +78,12 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
      to edit the publication.
     */
 
-    if( mode == EditMode.ADD ) {
-       %> <c:set var="editMode" value="add"/><%
+     if( mode == EditMode.ADD ) {
+    %> <c:set var="editMode" value="add"/><%
     } else if(mode == EditMode.EDIT){
-        // Because it's edit mode, we already know there's one and only one statement
-        ObjectPropertyStatement ops = obj.getObjectPropertyStatements(nodeToRoleProp).get(0);
-        String roleUri = ops.getObjectURI();
-        String forwardToIndividual = roleUri != null ? roleUri : objectUri;
-        %>
-        <jsp:forward page="/individual">
-            <jsp:param value="<%= forwardToIndividual %>" name="uri"/>
-        </jsp:forward>
-        <%
+     %> <c:set var="editMode" value="edit"/><%
     } else if(mode == EditMode.REPAIR){
-        %> <c:set var="editMode" value="repair"/><%
+     %> <c:set var="editMode" value="repair"/><%
     }
 
     WebappDaoFactory wdf = vreq.getWebappDaoFactory();
@@ -128,15 +120,10 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <c:set var="intervalToStart" value="${vivoCore}start"/>
 <c:set var="intervalToEnd" value="${vivoCore}end"/>
 
-<%-- Unlike other custom forms, this form does not allow edits of existing authors, so there are no
-SPARQL queries for existing values. --%>
-
 <v:jsonset var="newRoleTypeAssertion">
     @prefix core: <${vivoCore}> .
     @prefix rdf:  <${rdf}> .
-    @prefix rdfs:  <${rdfs}> .
-    
-    ?roleUri rdf:type <http://www.w3.org/2002/07/owl#Thing> .    
+    @prefix rdfs:  <${rdfs}> .    
 
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
@@ -169,6 +156,89 @@ SPARQL queries for existing values. --%>
     ?endNode  <${type}> <${dateTimeValueType}> .
     ?endNode  <${dateTimeValue}> ?endField-value .
     ?endNode  <${dateTimePrecision}> ?endField-precision .
+</v:jsonset>
+
+<%-- ---------------------------------------------------------------------- --%>
+
+<v:jsonset var="existingIntervalNodeQuery" >
+    SELECT ?existingIntervalNode WHERE {
+          ?roleUri <${roleToInterval}> ?existingIntervalNode .
+          ?existingIntervalNode <${type}> <${intervalType}> . }
+</v:jsonset>
+
+ <v:jsonset var="existingStartNodeQuery" >
+    SELECT ?existingStartNode WHERE {
+      ?roleUri <${roleToInterval}> ?intervalNode .
+      ?intervalNode <${type}> <${intervalType}> .
+      ?intervalNode <${intervalToStart}> ?existingStartNode .
+      ?existingStartNode <${type}> <${dateTimeValueType}> .}
+</v:jsonset>
+
+<v:jsonset var="existingStartDateQuery" >
+    SELECT ?existingDateStart WHERE {
+     ?roleUri <${roleToInterval}> ?intervalNode .
+     ?intervalNode <${type}> <${intervalType}> .
+     ?intervalNode <${intervalToStart}> ?startNode .
+     ?startNode <${type}> <${dateTimeValueType}> .
+     ?startNode <${dateTimeValue}> ?existingDateStart . }
+</v:jsonset>
+
+<v:jsonset var="existingStartPrecisionQuery" >
+    SELECT ?existingStartPrecision WHERE {
+      ?roleUri <${roleToInterval}> ?intervalNode .
+      ?intervalNode <${type}> <${intervalType}> .
+      ?intervalNode <${intervalToStart}> ?startNode .
+      ?startNode <${type}> <${dateTimeValueType}> .
+      ?startNode <${dateTimePrecision}> ?existingStartPrecision . }
+</v:jsonset>
+
+ <v:jsonset var="existingEndNodeQuery" >
+    SELECT ?existingEndNode WHERE {
+      ?roleUri <${roleToInterval}> ?intervalNode .
+      ?intervalNode <${type}> <${intervalType}> .
+      ?intervalNode <${intervalToEnd}> ?existingEndNode .
+      ?existingEndNode <${type}> <${dateTimeValueType}> .}
+</v:jsonset>
+
+<v:jsonset var="existingEndDateQuery" >
+    SELECT ?existingEndDate WHERE {
+     ?roleUri <${roleToInterval}> ?intervalNode .
+     ?intervalNode <${type}> <${intervalType}> .
+     ?intervalNode <${intervalToEnd}> ?endNode .
+     ?endNode <${type}> <${dateTimeValueType}> .
+     ?endNode <${dateTimeValue}> ?existingEndDate . }
+</v:jsonset>
+
+<v:jsonset var="existingEndPrecisionQuery" >
+    SELECT ?existingEndPrecision WHERE {
+      ?roleUri <${roleToInterval}> ?intervalNode .
+      ?intervalNode <${type}> <${intervalType}> .
+      ?intervalNode <${intervalToEnd}> ?endNode .
+      ?endNode <${type}> <${dateTimeValueType}> .
+      ?endNode <${dateTimePrecision}> ?existingEndPrecision . }
+</v:jsonset>
+
+<%-- ---------------------------------------------------------------------- --%>
+
+<v:jsonset var="existingNameQuery" >
+  PREFIX core: <${vivoCore}>
+  PREFIX rdfs: <${rdfs}>
+  
+  SELECT ?existingName WHERE {
+    ?activity core:relatedRole ?roleUri .
+    ?roleUri core:roleOf ?personUri .
+    ?personUri rdfs:label ?existingName .
+  }
+</v:jsonset>
+
+<v:jsonset var="existingRoleTypeQuery" >
+  PREFIX core: <${vivoCore}>
+  PREFIX rdf: <${rdf}>
+
+  SELECT ?existingRoleType WHERE {
+    ?activity core:relatedRole ?roleUri .
+    ?roleUri rdf:type ?existingRoleType .
+  }
 </v:jsonset>
 
 <c:set var="personTypeLiteralOptions">
@@ -212,12 +282,23 @@ SPARQL queries for existing values. --%>
     "urisInScope"    : { },
     "literalsInScope": { },
     "urisOnForm"     : [ "personUri", "roleTypeUri" ],
-    "literalsOnForm" : [ ],
+    "literalsOnForm" : [ "personName" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
-    "sparqlForExistingLiterals" : { },
-    "sparqlForExistingUris" : { },
+    "sparqlForExistingLiterals" : {
+        "personName"         : "${existingNameQuery}",
+        "startField-value"   : "${existingStartDateQuery}",
+        "endField-value"     : "${existingEndDateQuery}"
+    },
+    "sparqlForExistingUris" : {
+        "roleTypeUri"           : "${existingRoleTypeQuery}" ,
+        "intervalNode"          : "${existingIntervalNodeQuery}",
+        "startNode"             : "${existingStartNodeQuery}",
+        "endNode"               : "${existingEndNodeQuery}",
+        "startField-precision"  : "${existingStartPrecisionQuery}",
+        "endField-precision"    : "${existingEndPrecisionQuery}"
+    },
     "fields" : {
       "personType" : {
          "newResource"      : "false",
