@@ -137,7 +137,7 @@ SPARQL queries for existing values. --%>
     @prefix rdfs:  <${rdfs}> .
     
     ?roleUri rdf:type <http://www.w3.org/2002/07/owl#Thing> .    
-    ?roleUri rdfs:label ?title
+    ?roleUri rdfs:label ?roleLabel .
 
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
@@ -207,14 +207,14 @@ SPARQL queries for existing values. --%>
     "urisInScope"    : { },
     "literalsInScope": { },
     "urisOnForm"     : [ "personUri", "roleTypeUri" ],
-    "literalsOnForm" : [ ],
+    "literalsOnForm" : [ "roleLabel" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "title" : {
+      "roleLabel" : {
          "newResource"      : "false",
          "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
          "optionsType"      : "UNDEFINED",
