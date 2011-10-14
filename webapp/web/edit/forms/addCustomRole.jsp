@@ -137,10 +137,12 @@ SPARQL queries for existing values. --%>
     @prefix rdfs:  <${rdfs}> .
     
     ?roleUri rdf:type <http://www.w3.org/2002/07/owl#Thing> .    
-    ?roleUri rdfs:label ?roleLabel .
 
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
+    
+    ?roleUri core:researcherRoleOf ?personUri .
+    ?personUri core:core:hasResearcherRole ?roleUri .
     
     ?roleUri core:roleIn ?activity .
     ?activity core:relatedRole ?roleUri .
@@ -152,7 +154,7 @@ SPARQL queries for existing values. --%>
 </v:jsonset>
 
 <v:jsonset var="n3ForStart">
-    ?role      <${roleToInterval}> ?intervalNode .
+    ?roleUri      <${roleToInterval}> ?intervalNode .
     ?intervalNode  <${type}> <${intervalType}> .
     ?intervalNode <${intervalToStart}> ?startNode .
     ?startNode  <${type}> <${dateTimeValueType}> .
@@ -161,7 +163,7 @@ SPARQL queries for existing values. --%>
 </v:jsonset>
 
 <v:jsonset var="n3ForEnd">
-    ?role      <${roleToInterval}> ?intervalNode .
+    ?roleUri      <${roleToInterval}> ?intervalNode .
     ?intervalNode  <${type}> <${intervalType}> .
     ?intervalNode <${intervalToEnd}> ?endNode .
     ?endNode  <${type}> <${dateTimeValueType}> .
@@ -200,31 +202,23 @@ SPARQL queries for existing values. --%>
 
     "n3required"    : [ "${n3ForNewRole}" ],
 
-    "n3optional"    : [ "${newRoleTypeAssertion}" ],
+    "n3optional"    : [ "${newRoleTypeAssertion}", "${n3ForStart}", "${n3ForEnd}" ],
 
-    "newResources"  : { "roleUri" : "${defaultNamespace}" },
+    "newResources"  : { "roleUri" : "${defaultNamespace}",
+                        "intervalNode" : "${defaultNamespace}",
+                        "startNode" : "${defaultNamespace}",
+                        "endNode" : "${defaultNamespace}" }
 
     "urisInScope"    : { },
     "literalsInScope": { },
     "urisOnForm"     : [ "personUri", "roleTypeUri" ],
-    "literalsOnForm" : [ "roleLabel" ],
+    "literalsOnForm" : [ ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "roleLabel" : {
-         "newResource"      : "false",
-         "validators"       : [ "datatype:${stringDatatypeUriJson}" ],
-         "optionsType"      : "UNDEFINED",
-         "literalOptions"   : [ ],
-         "predicateUri"     : "",
-         "objectClassUri"   : "",
-         "rangeDatatypeUri" : "${stringDatatypeUriJson}",
-         "rangeLang"        : "",
-         "assertions"       : [ "${newRoleTypeAssertion}" ]
-      },
       "personType" : {
          "newResource"      : "false",
          "validators"       : [ ],
@@ -375,8 +369,7 @@ SPARQL queries for existing values. --%>
 	        <input type="hidden" id="personUri" name="personUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
 
-        <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleTypeUri" id="roleTypeUri" /></p>
-        <p><v:input type="text" id="relatedRoleLabel" name="roleLabel" label="Role Label ${requiredHint}" size="50" /></p>
+        <p class="inline"><v:input type="select" label="Role Type ${requiredHint}" name="roleTypeUri" id="roleTypeUri" /></p>        
         <br><br>
             
         <c:choose>
