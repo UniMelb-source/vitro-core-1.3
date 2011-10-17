@@ -40,7 +40,7 @@
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
 <c:set var="label" value="${rdfs}label" />
 
-<c:set var="toDateTimeValue" value="${vivoCore}dateTimeValue"/>
+<%--<c:set var="toDateTimeValue" value="${vivoCore}dateTimeValue"/> --%>
 <c:set var="valueType" value="${vivoCore}DateTimeValue"/>
 
 <c:set var="dateTimeValue" value="${vivoCore}dateTime"/>
@@ -48,7 +48,7 @@
 
 <%-- Assertions for adding a new date time value --%>
 <v:jsonset var="n3ForValue">
-    ?subject      <${toDateTimeValue}> ?valueNode .
+    ?subject    ?predicate ?valueNode .
     ?valueNode  <${type}> <${valueType}> .
     ?valueNode  <${dateTimeValue}> ?dateTimeField-value .
     ?valueNode  <${dateTimePrecision}> ?dateTimeField-precision .
@@ -57,20 +57,20 @@
 <%-- Queries for editing an existing role --%>
 <v:jsonset var="existingNodeQuery" >
     SELECT ?existingNode WHERE {
-          ?subject <${toDateTimeValue}> ?existingNode .
+          ?subject ?predicate ?existingNode .
           ?existingNode <${type}> <${valueType}> . }
 </v:jsonset>
 
 <v:jsonset var="existingDateTimeValueQuery" >
     SELECT ?existingDateTimeValue WHERE {
-     ?subject <${toDateTimeValue}> ?existingValueNode .
+     ?subject ?predicate ?existingValueNode .
      ?existingValueNode <${type}> <${valueType}> .
      ?existingValueNode <${dateTimeValue}> ?existingDateTimeValue . }
 </v:jsonset>
 
 <v:jsonset var="existingPrecisionQuery" >
     SELECT ?existingPrecision WHERE {
-      ?subject <${toDateTimeValue}> ?existingValueNode .
+      ?subject ?predicate ?existingValueNode .
       ?existingValueNode <${type}> <${valueType}> .
       ?existingValueNode <${dateTimePrecision}> ?existingPrecision . }
 </v:jsonset>
@@ -102,7 +102,7 @@
     "urlPatternToReturnTo" : "/individual",
     
     "subject"   : ["subject",    "${subjectUriJson}" ],
-    "predicate" : ["toDateTimeValue", "${predicateUriJson}" ],
+    "predicate" : ["predicate", "${predicateUriJson}" ],
     "object"    : ["valueNode", "${objectUriJson}", "URI" ],
     
     "n3required"    : [  ],
