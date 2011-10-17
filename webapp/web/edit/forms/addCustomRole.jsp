@@ -257,10 +257,11 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <v:jsonset var="existingRoleTypeQuery" >
   PREFIX core: <${vivoCore}>
   PREFIX rdf: <${rdf}>
+  PREFIX vitro:  <${vitro}>
 
   SELECT ?existingRoleType WHERE {
     ?activity core:relatedRole ?roleUri .
-    ?roleUri rdf:type ?existingRoleType .
+    ?roleUri vitro:mostSpecificType ?existingRoleType .
 
         FILTER (
             ?existingRoleType = core:ResearcherRole ||
