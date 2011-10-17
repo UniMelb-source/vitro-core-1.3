@@ -106,6 +106,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <c:set var="vivoCore" value="${vivoOnt}/core#" />
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
 <c:set var="rdf" value="<%= VitroVocabulary.RDF %>" />
+<c:set var="vitro" value="<%= VitroVocabulary.vitroURI %>" />
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
 
@@ -123,7 +124,7 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <v:jsonset var="newRoleTypeAssertion">
     @prefix core: <${vivoCore}> .
     @prefix rdf:  <${rdf}> .
-    @prefix rdfs:  <${rdfs}> .    
+    @prefix rdfs:  <${rdfs}> .
 
     ?roleUri core:roleOf ?personUri .
     ?personUri core:hasRole ?roleUri .
@@ -234,11 +235,12 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 <v:jsonset var="existingPersonTypeQuery" >
   PREFIX core: <${vivoCore}>
   PREFIX rdf: <${rdf}>
+  PREFIX vitro:  <${vitro}>
 
   SELECT ?existingPersonType WHERE {
     ?activity core:relatedRole ?roleUri .
     ?roleUri core:roleOf ?personUri .
-    ?personUri rdf:type ?existingPersonType .
+    ?personUri vitro:mostSpecificType ?existingPersonType .
 
         FILTER (
             ?existingPersonType = core:FacultyMember ||
