@@ -1,21 +1,5 @@
 <%-- $This file is distributed under the terms of the license in /doc/license.txt$ --%>
 
-<%-- Custom form for adding a publication to an author
-
-Classes:
-foaf:Person - the individual being edited
-core:Authorship - primary new individual being created
-
-Object properties (domain : range):
-
-core:authorInAuthorship (Person : Authorship)
-core:linkedAuthor (Authorship : Person) - inverse of authorInAuthorship
-
-core:linkedInformationResource (Authorship : InformationResource)
-core:informationResourceInAuthorship (InformationResource : Authorship) - inverse of linkedInformationResource
-
---%>
-
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Arrays" %>
@@ -63,20 +47,6 @@ core:informationResourceInAuthorship (InformationResource : Authorship) - invers
 	Individual obj = (Individual) request.getAttribute("object");
 
     EditMode mode = FrontEndEditingUtils.getEditMode(request, nodeToRoleProp);
-
-    /*
-    There are 3 modes that this form can be in:
-     1.  Add. There is a subject and a predicate but no position and nothing else.
-
-     2. Repair a bad role node.  There is a subject, predicate and object but there is no individual on the
-        other end of the object's core:linkedInformationResource stmt.  This should be similar to an add but the form should be expanded.
-
-     3. Really bad node. Multiple core:authorInAuthorship statements.
-
-     This form does not currently support normal edit mode where there is a subject, an object, and an individual on
-     the other end of the object's core:linkedInformationResource statement. We redirect to the publication profile
-     to edit the publication.
-    */
 
      if( mode == EditMode.ADD ) {
     %> <c:set var="editMode" value="add"/><%
