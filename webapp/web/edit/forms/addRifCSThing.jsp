@@ -30,7 +30,7 @@
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.DateTimeIntervalValidation"%>
 
 <%!
-    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addCustomRole.jsp");
+    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addRifCSThing.jsp");
     public static String nodeToRifcsThingProp = "http://purl.org/ands/ontologies/vivo/RifcsThing";
 
     VitroRequest vreq = new VitroRequest(request);
