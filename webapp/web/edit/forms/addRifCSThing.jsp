@@ -102,7 +102,7 @@
     [ "http://purl.org/ands/ontologies/vivo/ResearchRepository", "Research Repository" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchDataset", "Research Dataset" ],
     [ "http://purl.org/ands/ontologies/vivo/Service", "Service" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceAnnotate", "Service Annotate" ]
+    [ "http://purl.org/ands/ontologies/vivo/ServiceAnnotate", "Service Annotate" ],
     [ "http://purl.org/ands/ontologies/vivo/ServiceAssemble", "Service Assemble" ],
     [ "http://purl.org/ands/ontologies/vivo/ServiceCreate", "Service Create" ],
     [ "http://purl.org/ands/ontologies/vivo/ServiceGenerate", "Service Generate" ],
