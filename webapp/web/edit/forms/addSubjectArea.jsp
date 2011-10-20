@@ -30,8 +30,8 @@
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.DateTimeIntervalValidation"%>
 
 <%!
-    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addRifCSThing.jsp");
-    public static String nodeToRifcsThingProp = "http://purl.org/ands/ontologies/vivo/RifcsThing";
+    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addSubjectArea.jsp");
+    public static String nodeToSubjectAreaProp = "	 http://vivoweb.org/ontology/core#SubjectArea";
 
     VitroRequest vreq = new VitroRequest(request);
 
@@ -41,15 +41,15 @@
 
 	Individual obj = (Individual) request.getAttribute("object");
 
-    EditMode mode = FrontEndEditingUtils.getEditMode(request, nodeToRifcsThingProp);
+    EditMode mode = FrontEndEditingUtils.getEditMode(request, nodeToSubjectAreaProp);
 
     if( mode == EditMode.ADD ) {
        %> <c:set var="editMode" value="add"/><%
     } else if(mode == EditMode.EDIT){
         // Because it's edit mode, we already know there's one and only one statement
-        ObjectPropertyStatement ops = obj.getObjectPropertyStatements(nodeToRifcsThingProp).get(0);
-        String rifcsThingUri = ops.getObjectURI();
-        String forwardToIndividual = rifcsThingUri != null ? rifcsThingUri : objectUri;
+        ObjectPropertyStatement ops = obj.getObjectPropertyStatements(nodeToSubjectAreaProp).get(0);
+        String subjectAreaUri = ops.getObjectURI();
+        String forwardToIndividual = subjectAreaUri != null ? subjectAreaUri : objectUri;
         %>
         <jsp:forward page="/individual">
             <jsp:param value="<%= forwardToIndividual %>" name="uri"/>
@@ -83,15 +83,15 @@
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
 
-<v:jsonset var="n3ForNewRifcsThing">
+<v:jsonset var="n3ForNewSubjectArea">
     @prefix core: <${vivoCore}> .
     @prefix rdf:  <${rdf}> .
     @prefix rdfs:  <${rdfs}> .
     
-    ?subject ?predicate ?rifcsThingUri . 
+    ?subject ?predicate ?subjectAreaUri .
 </v:jsonset>
 
-<c:set var="rifcsTypeLiteralOptions">
+<c:set var="subjectAreaTypeLiteralOptions">
     ["", "Select type"],
     [ "http://purl.org/ands/ontologies/vivo/ResearchData", "Research Data" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchCatalog", "Research Catalog" ],
@@ -124,9 +124,9 @@
 
     "subject"   : ["subject", "${subjectUriJson}" ],
     "predicate" : ["predicate", "${predicateUriJson}" ],
-    "object"    : ["rifcsThingUri", "${objectUriJson}", "URI" ],
+    "object"    : ["subjectAreaUri", "${objectUriJson}", "URI" ],
 
-    "n3required"    : [ "${n3ForNewRifcsThing}" ],
+    "n3required"    : [ "${n3ForNewSubjectArea}" ],
 
     "n3optional"    : [ ],
 
@@ -134,32 +134,32 @@
 
     "urisInScope"    : { },
     "literalsInScope": { },
-    "urisOnForm"     : [ "rifcsThingUri" ],
-    "literalsOnForm" : [ "rifcsThingName" ],
+    "urisOnForm"     : [ "subjectAreaUri" ],
+    "literalsOnForm" : [ "subjectAreaName" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "rifcsThingType" : {
+      "subjectAreaType" : {
          "newResource"      : "false",
          "validators"       : [ ],
          "optionsType"      : "HARDCODED_LITERALS",
-         "literalOptions"   : [ ${rifcsTypeLiteralOptions} ],
+         "literalOptions"   : [ ${subjectAreaTypeLiteralOptions} ],
          "predicateUri"     : "",
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : [ "" ]
       },
-      "rifcsThingUri" : {
+      "subjectAreaUri" : {
          "newResource"      : "true",
          "validators"       : [ ],
          "optionsType"      : "UNDEFINED",
          "literalOptions"   : [ ],
          "predicateUri"     : "",
-         "objectClassUri"   : "${rifcsThingClassUriJson}",
+         "objectClassUri"   : "${subjectAreaClassUriJson}",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : [""]
@@ -208,11 +208,11 @@
 <c:choose>
     <c:when test='${editMode == "add"}'>
         <c:set var="titleVerb" value="Add" />
-        <c:set var="submitButtonText" value="RIF-CS Thing" />
+        <c:set var="submitButtonText" value="Subject Area" />
     </c:when>
     <c:otherwise>
         <c:set var="titleVerb" value="Edit" />
-        <c:set var="submitButtonText" value="Edit RIF-CS Thing" />
+        <c:set var="submitButtonText" value="Edit Subject Area" />
     </c:otherwise>
 </c:choose>
 
@@ -232,7 +232,7 @@
 <%-- DO NOT CHANGE IDS, CLASSES, OR HTML STRUCTURE IN THIS FORM WITHOUT UNDERSTANDING THE IMPACT ON THE JAVASCRIPT! --%>
 <form id="addRoleForm" class="customForm noIE67"  action="<c:url value="/edit/processRdfForm2.jsp"/>" >
 
-    <p class="inline"><v:input type="select" label="RIF-CS Type ${requiredHint}" name="rifcsThingType" id="typeSelector" /></p>
+    <p class="inline"><v:input type="select" label="Subject Area Type ${requiredHint}" name="subjectAreaType" id="typeSelector" /></p>
 
     <div class="fullViewOnly">       
        
