@@ -98,7 +98,7 @@
     [ "http://purl.org/ands/ontologies/vivo/ResearchData", "Research Data" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchCatalog", "Research Catalog" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchCollection", "Research Collection" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchRecordsCollection", "Research Records Collection" ]
+    [ "http://purl.org/ands/ontologies/vivo/ResearchRecordsCollection", "Research Records Collection" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchRepository", "Research Repository" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchDataset", "Research Dataset" ],
     [ "http://purl.org/ands/ontologies/vivo/Service", "Service" ],
@@ -140,7 +140,7 @@
     "literalsOnForm" : [ "rifcsThingName" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
-    "sparqlForUris" : {  },
+    "sparqlForUris" : { },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
@@ -164,7 +164,7 @@
          "objectClassUri"   : "${rifcsThingClassUriJson}",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
-         "assertions"       : [""]
+         "assertions"       : [ "" ]
       }
   }
 }
