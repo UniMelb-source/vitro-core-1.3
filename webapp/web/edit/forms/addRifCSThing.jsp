@@ -95,10 +95,10 @@
 
 <c:set var="rifcsTypeLiteralOptions">
     ["", "Select type"],
+    [ "http://vivoweb.org/ontology/core#FacultyMember", "VIVO Faculty Member" ],
     [ "http://vivoweb.org/ontology/core#Program", "VIVO Program" ],
     [ "http://vivoweb.org/ontology/core#Agreement", "VIVO Agreement" ],
-    [ "http://vivoweb.org/ontology/core#Project", "VIVO Project" ],
-    [ "	 http://xmlns.com/foaf/0.1/Person", "FOAF Person" ],
+    [ "http://vivoweb.org/ontology/core#Project", "VIVO Project" ],    
     [ "http://xmlns.com/foaf/0.1/Organization", "FOAF Organization" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchData", "Research Data" ],
     [ "http://purl.org/ands/ontologies/vivo/ResearchCatalog", "Research Catalog" ],
