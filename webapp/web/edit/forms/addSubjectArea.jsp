@@ -31,8 +31,10 @@
 
 <%!
     public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addSubjectArea.jsp");
-    public static String nodeToSubjectAreaProp = "	 http://vivoweb.org/ontology/core#SubjectArea";
+    public static String nodeToSubjectAreaProp = "http://vivoweb.org/ontology/core#SubjectArea";
+%>
 
+<%
     VitroRequest vreq = new VitroRequest(request);
 
     String subjectUri = vreq.getParameter("subjectUri");
@@ -93,27 +95,11 @@
 
 <c:set var="subjectAreaTypeLiteralOptions">
     ["", "Select type"],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchData", "Research Data" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchCatalog", "Research Catalog" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchCollection", "Research Collection" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchRecordsCollection", "Research Records Collection" ]
-    [ "http://purl.org/ands/ontologies/vivo/ResearchRepository", "Research Repository" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchDataset", "Research Dataset" ],
-    [ "http://purl.org/ands/ontologies/vivo/Service", "Service" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceAnnotate", "Service Annotate" ]
-    [ "http://purl.org/ands/ontologies/vivo/ServiceAssemble", "Service Assemble" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceCreate", "Service Create" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceGenerate", "Service Generate" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceHarvestOaipmh", "Service Harvest OAIPMH" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceReport", "Service Report" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchHttp", "Service Search HTTP" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchOpensearch", "Service Open Search" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchSrw", "Service Search SRW" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchZ3950", "Service Search z3950" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchSru", "Service Search SRU" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSyndicateAtom", "Service Syndicate Atom" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSyndicateRss", "Service Syndicate Rss" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceTransform", "Service Transform" ]
+    [ "http://purl.org/asc/1297.0/2008/seo/SEO", "SEO 2008" ],
+    [ "http://purl.org/asc/1297.0/1998/seo/SEO", "SEO 1998" ],
+    [ "http://purl.org/asc/1297.0/2008/for/FOR", "FOR 2008" ],
+    [ "http://purl.org/asc/1297.0/1998/rfcd/RFCD", "RFCD 1998" ],
+    [ "http://purl.org/ands/ontologies/vivo/SubjectAreaKeyword", "Subject Area Keyword" ]
 </c:set>
 
 <c:set var="editjson" scope="request">
@@ -236,12 +222,12 @@
 
     <div class="fullViewOnly">       
        
-	   <p><v:input type="text" id="relatedIndLabel" name="rifcsThingName" label="RIF-CS Thing Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p><v:input type="text" id="relatedIndLabel" name="subjectAreaName" label="Subject Area Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
 	        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
-	        <input type="hidden" id="rifcsThingUri" name="rifcsThingUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
+	        <input type="hidden" id="subjectAreaUri" name="subjectAreaUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
     </div>
 
@@ -259,7 +245,7 @@ var customFormData  = {
     acUrl: '${acUrl}',
     submitButtonTextType: 'simple',
     editMode: '${editMode}',
-    defaultTypeName: 'RIF-CS Thing' // used in repair mode to generate button text
+    defaultTypeName: 'Subject Area' // used in repair mode to generate button text
 };
 </script>
 

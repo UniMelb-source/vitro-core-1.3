@@ -30,9 +30,11 @@
 <%@ page import="edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.DateTimeIntervalValidation"%>
 
 <%!
-    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addRifCSThing.jsp");
-    public static String nodeToRifcsThingProp = "http://purl.org/ands/ontologies/vivo/RifcsThing";
+    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.addInformationResource.jsp");
+    public static String nodeToInformationResourceProp = "http://vivoweb.org/ontology/core#InformationResource";
+%>
 
+<%
     VitroRequest vreq = new VitroRequest(request);
 
     String subjectUri = vreq.getParameter("subjectUri");
@@ -41,15 +43,15 @@
 
 	Individual obj = (Individual) request.getAttribute("object");
 
-    EditMode mode = FrontEndEditingUtils.getEditMode(request, nodeToRifcsThingProp);
+    EditMode mode = FrontEndEditingUtils.getEditMode(request, nodeToInformationResourceProp);
 
     if( mode == EditMode.ADD ) {
        %> <c:set var="editMode" value="add"/><%
     } else if(mode == EditMode.EDIT){
         // Because it's edit mode, we already know there's one and only one statement
-        ObjectPropertyStatement ops = obj.getObjectPropertyStatements(nodeToRifcsThingProp).get(0);
-        String rifcsThingUri = ops.getObjectURI();
-        String forwardToIndividual = rifcsThingUri != null ? rifcsThingUri : objectUri;
+        ObjectPropertyStatement ops = obj.getObjectPropertyStatements(nodeToInformationResourceProp).get(0);
+        String informationResourceUri = ops.getObjectURI();
+        String forwardToIndividual = informationResourceUri != null ? informationResourceUri : objectUri;
         %>
         <jsp:forward page="/individual">
             <jsp:param value="<%= forwardToIndividual %>" name="uri"/>
@@ -83,37 +85,21 @@
 <c:set var="label" value="${rdfs}label" />
 <c:set var="infoResourceClassUri" value="${vivoCore}InformationResource" />
 
-<v:jsonset var="n3ForNewRifcsThing">
+<v:jsonset var="n3ForNewInformationResource">
     @prefix core: <${vivoCore}> .
     @prefix rdf:  <${rdf}> .
     @prefix rdfs:  <${rdfs}> .
-    
-    ?subject ?predicate ?rifcsThingUri . 
+
+    ?subject ?predicate ?subjectAreaUri .
 </v:jsonset>
 
-<c:set var="rifcsTypeLiteralOptions">
+<c:set var="informationResourceTypeLiteralOptions">
     ["", "Select type"],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchData", "Research Data" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchCatalog", "Research Catalog" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchCollection", "Research Collection" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchRecordsCollection", "Research Records Collection" ]
-    [ "http://purl.org/ands/ontologies/vivo/ResearchRepository", "Research Repository" ],
-    [ "http://purl.org/ands/ontologies/vivo/ResearchDataset", "Research Dataset" ],
-    [ "http://purl.org/ands/ontologies/vivo/Service", "Service" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceAnnotate", "Service Annotate" ]
-    [ "http://purl.org/ands/ontologies/vivo/ServiceAssemble", "Service Assemble" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceCreate", "Service Create" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceGenerate", "Service Generate" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceHarvestOaipmh", "Service Harvest OAIPMH" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceReport", "Service Report" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchHttp", "Service Search HTTP" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchOpensearch", "Service Open Search" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchSrw", "Service Search SRW" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchZ3950", "Service Search z3950" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSearchSru", "Service Search SRU" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSyndicateAtom", "Service Syndicate Atom" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceSyndicateRss", "Service Syndicate Rss" ],
-    [ "http://purl.org/ands/ontologies/vivo/ServiceTransform", "Service Transform" ]
+    [ "http://vivoweb.org/ontology/core#Software", "Software" ],
+    [ "http://purl.org/ontology/bibo/Document", "Document" ],
+    [ "http://xmlns.com/foaf/0.1/Image", "Image" ],
+    [ "http://purl.org/ontology/bibo/Collection", "Collection" ],
+    [ "http://vivoweb.org/ontology/core#Dataset", "Dataset" ]
 </c:set>
 
 <c:set var="editjson" scope="request">
@@ -124,9 +110,9 @@
 
     "subject"   : ["subject", "${subjectUriJson}" ],
     "predicate" : ["predicate", "${predicateUriJson}" ],
-    "object"    : ["rifcsThingUri", "${objectUriJson}", "URI" ],
+    "object"    : ["informationResourceUri", "${objectUriJson}", "URI" ],
 
-    "n3required"    : [ "${n3ForNewRifcsThing}" ],
+    "n3required"    : [ "${n3ForNewInformationResource}" ],
 
     "n3optional"    : [ ],
 
@@ -134,32 +120,32 @@
 
     "urisInScope"    : { },
     "literalsInScope": { },
-    "urisOnForm"     : [ "rifcsThingUri" ],
-    "literalsOnForm" : [ "rifcsThingName" ],
+    "urisOnForm"     : [ "informationResourceUri" ],
+    "literalsOnForm" : [ "informationResourceName" ],
     "filesOnForm"    : [ ],
     "sparqlForLiterals" : { },
     "sparqlForUris" : {  },
     "sparqlForExistingLiterals" : { },
     "sparqlForExistingUris" : { },
     "fields" : {
-      "rifcsThingType" : {
+      "informationResourceType" : {
          "newResource"      : "false",
          "validators"       : [ ],
          "optionsType"      : "HARDCODED_LITERALS",
-         "literalOptions"   : [ ${rifcsTypeLiteralOptions} ],
+         "literalOptions"   : [ ${informationResourceTypeLiteralOptions} ],
          "predicateUri"     : "",
          "objectClassUri"   : "",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : [ "" ]
       },
-      "rifcsThingUri" : {
+      "informationResourceUri" : {
          "newResource"      : "true",
          "validators"       : [ ],
          "optionsType"      : "UNDEFINED",
          "literalOptions"   : [ ],
          "predicateUri"     : "",
-         "objectClassUri"   : "${rifcsThingClassUriJson}",
+         "objectClassUri"   : "${informationResourceClassUriJson}",
          "rangeDatatypeUri" : "",
          "rangeLang"        : "",
          "assertions"       : [""]
@@ -208,11 +194,11 @@
 <c:choose>
     <c:when test='${editMode == "add"}'>
         <c:set var="titleVerb" value="Add" />
-        <c:set var="submitButtonText" value="RIF-CS Thing" />
+        <c:set var="submitButtonText" value="Information Resource" />
     </c:when>
     <c:otherwise>
         <c:set var="titleVerb" value="Edit" />
-        <c:set var="submitButtonText" value="Edit RIF-CS Thing" />
+        <c:set var="submitButtonText" value="Edit Information Resource" />
     </c:otherwise>
 </c:choose>
 
@@ -232,16 +218,16 @@
 <%-- DO NOT CHANGE IDS, CLASSES, OR HTML STRUCTURE IN THIS FORM WITHOUT UNDERSTANDING THE IMPACT ON THE JAVASCRIPT! --%>
 <form id="addRoleForm" class="customForm noIE67"  action="<c:url value="/edit/processRdfForm2.jsp"/>" >
 
-    <p class="inline"><v:input type="select" label="RIF-CS Type ${requiredHint}" name="rifcsThingType" id="typeSelector" /></p>
+    <p class="inline"><v:input type="select" label="Information Resource Type ${requiredHint}" name="informationResourceType" id="typeSelector" /></p>
 
     <div class="fullViewOnly">       
        
-	   <p><v:input type="text" id="relatedIndLabel" name="rifcsThingName" label="RIF-CS Thing Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
+	   <p><v:input type="text" id="relatedIndLabel" name="informationResourceName" label="Information Resource Name ${requiredHint}" cssClass="acSelector" size="50" /></p>
 
 	    <div class="acSelection">
 	        <%-- RY maybe make this a label and input field. See what looks best. --%>
 	        <p class="inline"><label></label><span class="acSelectionInfo"></span> <a href="<c:url value="/individual?uri=" />" class="verifyMatch">(Verify this match)</a></p>
-	        <input type="hidden" id="rifcsThingUri" name="rifcsThingUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
+	        <input type="hidden" id="informationResourceUri" name="informationResourceUri" class="acUriReceiver" value="" /> <!-- Field value populated by JavaScript -->
 	    </div>
     </div>
 
@@ -259,7 +245,7 @@ var customFormData  = {
     acUrl: '${acUrl}',
     submitButtonTextType: 'simple',
     editMode: '${editMode}',
-    defaultTypeName: 'RIF-CS Thing' // used in repair mode to generate button text
+    defaultTypeName: 'Information Resource' // used in repair mode to generate button text
 };
 </script>
 
