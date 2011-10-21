@@ -90,11 +90,12 @@
     @prefix rdf:  <${rdf}> .
     @prefix rdfs:  <${rdfs}> .
 
-    ?subject ?predicate ?subjectAreaUri .
+    ?subject ?predicate ?informationResourceUri .
 </v:jsonset>
 
 <c:set var="informationResourceTypeLiteralOptions">
     ["", "Select type"],
+    [ "http://vivoweb.org/ontology/core#InformationResource", "Information Resource" ],
     [ "http://vivoweb.org/ontology/core#Software", "Software" ],
     [ "http://purl.org/ontology/bibo/Document", "Document" ],
     [ "http://xmlns.com/foaf/0.1/Image", "Image" ],
