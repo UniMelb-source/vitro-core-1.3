@@ -289,6 +289,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p class="submit"><v:input type="submit" id="submit" value="${submitLabel}" cancel="${param.subjectUri}"/></p>
     
     <p id="requiredLegend" class="requiredHint">* required fields</p>
+    <div>
+        <p style="float: left;">The following statements can be added to the record: </p>
+        <p style="float:right"><a href="#" onClick="unCheckAll(document.addForm.list); return false;">Select None</a> - <a href="#" onClick="checkAll(document.addForm.list); return false;">Select All</a></p>
+        <div style="clear: both;"></div>
+    </div>
     <br>
     <ul>${inheritedSubjectArea}</ul>
 </form>
