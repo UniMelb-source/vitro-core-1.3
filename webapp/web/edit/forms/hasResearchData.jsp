@@ -289,6 +289,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p class="submit"><v:input type="submit" id="submit" value="${submitLabel}" cancel="${param.subjectUri}"/></p>
     
     <p id="requiredLegend" class="requiredHint">* required fields</p>
+    <br>
+    <ul>${inheritedSubjectArea}</ul>
 </form>
 
 <jsp:include page="${postForm}"/>
