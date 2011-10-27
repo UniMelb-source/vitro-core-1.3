@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 <%! 
-    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.hasResearchData.jsp");
+    public static Log log = LogFactory.getLog("edu.cornell.mannlib.vitro.webapp.jsp.edit.forms.publicationHasResearchData.jsp");
 %>
 <%
     VitroRequest vreq = new VitroRequest(request);
@@ -77,6 +77,95 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <c:set var="rdfs" value="<%= VitroVocabulary.RDFS %>" />
 <c:set var="label" value="${rdfs}label" />
 <c:set var="researchDataClass" value="${vitroands}ResearchData" />
+
+<c:set var="inheritedCustodians">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="inforauthorships" publication="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT DISTINCT ?person ?plabel WHERE{
+                ?publication core:informationResourceInAuthorship ?la.
+                ?la core:linkedAuthor ?person.
+                ?person core:personInPosition ?position.                
+                ?person rdfs:label ?plabel}
+	      </sparql:select>
+					<c:forEach items="${inforauthorships.rows}" var="inforauthorship" varStatus="counter">
+                        <input type="hidden" disabled id="inferredStatementsAPI${counter.count}" name="inferredStatementsAPI${counter.count}" value="
+                            @prefix ands: <${vitroands}> .
+                            @prefix core: <${vivoCore}> .
+                            ?researchDataUri ands:associatedPrincipleInvestigator <${inforauthorship.person}> .
+                            <${inforauthorship.person}> ands:custodianOfResearchData ?researchDataUri ."
+                        />
+                        <li>
+                            Associated Principle Investigator: ${inforauthorship.plabel}
+                            <div style="float: right">
+                                <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsAPI'+${counter.count})}else{unCheckBox('inferredStatementsAPI'+${counter.count})}"/>
+                            </div>
+                        </li>
+					</c:forEach>
+	  </sparql:sparql> 
+</c:set>
+
+<c:set var="inheritedCustodianDepartments">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="custodianDepartmentSparql" publication="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT DISTINCT ?org ?olabel WHERE{
+                ?publication core:informationResourceInAuthorship ?la.
+                ?la core:linkedAuthor ?person.
+                ?person core:personInPosition ?position.
+                ?position core:positionInOrganization ?org.
+                ?person rdfs:label ?plabel.
+                ?org rdfs:label ?olabel}
+	      </sparql:select>
+					<c:forEach items="${custodianDepartmentSparql.rows}" var="custodianDepartmentResult" varStatus="counter">
+                        <input type="hidden" disabled id="inferredStatementsCD${counter.count}" name="inferredStatementsCD${counter.count}" value="
+                            @prefix ands: <${vitroands}> .
+                            @prefix core: <${vivoCore}> .
+                            ?researchDataUri ands:isManagedBy <${custodianDepartmentResult.org}> .
+                             <${custodianDepartmentResult.org}> ands:isManagerOf ?researchDataUri ."
+                        />
+                        <li>
+                            Custodian Department: ${custodianDepartmentResult.olabel}
+                            <div style="float: right">
+                                <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsCD'+${counter.count})}else{unCheckBox('inferredStatementsCD'+${counter.count})}"/>
+                            </div>
+                        </li>
+					</c:forEach>
+	  </sparql:sparql>
+</c:set>
+
+<c:set var="inheritedSubjectArea">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="subjectAreaSparql" publication="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT ?subjectArea ?subjectAreaLabel WHERE{
+                    ?publication core:hasSubjectArea ?subjectArea .
+                    ?subjectArea rdfs:label ?subjectAreaLabel
+              }
+	      </sparql:select>
+					<c:forEach items="${subjectAreaSparql.rows}" var="subjectAreaResult" varStatus="counter">
+                                            <input type="hidden" disabled id="inferredStatementsSA${counter.count}" name="inferredStatementsSA${counter.count}" value="
+                                                @prefix ands: <${vitroands}> .
+                                                @prefix core: <${vivoCore}> .
+                                                ?researchDataUri core:hasSubjectArea <${subjectAreaResult.subjectArea}> ." />
+                                            <li>
+                                                Subject Area: ${subjectAreaResult.subjectAreaLabel}
+                                                <div style="float: right">
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsSA'+${counter.count})}else{unCheckBox('inferredStatementsSA'+${counter.count})}"/>
+                                                </div>
+                                            </li>
+					</c:forEach>
+	  </sparql:sparql>
+</c:set>
 
 <%--  Then enter a SPARQL query for each field, by convention concatenating the field id with "Existing"
       to convey that the expression is used to retrieve any existing value for the field in an existing individual.
@@ -118,12 +207,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <c:set var="theme" value="http://xmlns.com/foaf/0.1/theme"/>
 <c:set var="themeUri" value="http://ANDSON.anu.edu.au/ns/0.1#individual1163021307"/>
 
+
+	
+
 <v:jsonset var="n3ForStmtToResearchData">       
     @prefix ands: <${vitroands}> .
    @prefix core: <${vivoCore}> .     
     
-    ?subject  ands:hasResearchData  ?researchDataUri.
-    ?researchDataUri ands:publishedIn ?subject .
+    ?publication  ands:hasResearchData  ?researchDataUri.
+    ?researchDataUri ands:publishedIn ?publication .
     
     ?researchDataUri  a <${researchDataClass}> ;
                  a  <${flagURI}> .
@@ -137,7 +229,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     "editKey" : "${editKey}",
     "urlPatternToReturnTo" : "/entity",
 
-    "subject"   : ["subject",    "${subjectUriJson}" ],
+    "subject"   : ["publication",    "${subjectUriJson}" ],
     "predicate" : ["predicate", "${predicateUriJson}" ],
     "object"    : ["researchDataUri", "${objectUriJson}", "URI" ],
     
@@ -220,9 +312,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     } else { // adding new entry
 %>
         <c:set var="editType" value="add" />
-        <c:set var="title" value="Create a new Research Data entry for ${subjectName}" />
+        <c:set var="title" value="Create a new Record Description entry for ${subjectName}" />
         <%-- NB This will be the button text when Javascript is disabled. --%>
-        <c:set var="submitLabel" value="Create Research Data" />
+        <c:set var="submitLabel" value="Create Record Description" />
 <%  } 
     
     List<String> customJs = new ArrayList<String>(Arrays.asList("forms/js/customFormWithAutocomplete.js"
@@ -262,6 +354,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p class="submit"><v:input type="submit" id="submit" value="${submitLabel}" cancel="${param.subjectUri}"/></p>
     
     <p id="requiredLegend" class="requiredHint">* required fields</p>
+    <div>
+        <p style="float: left;">The following statements can be added to the record: </p>
+        <p style="float:right"><a href="#" onClick="unCheckAll(document.addForm.list); return false;">Select None</a> - <a href="#" onClick="checkAll(document.addForm.list); return false;">Select All</a></p>
+        <div style="clear: both;"></div>
+    </div>
+    <br>
+    <ul>${inheritedCustodians}</ul>
+    <ul>${inheritedSubjectArea}</ul>
+    <ul>${inheritedCustodianDepartments}</ul>
 </form>
 
 <jsp:include page="${postForm}"/>
