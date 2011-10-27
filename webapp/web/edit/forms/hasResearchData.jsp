@@ -78,6 +78,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <c:set var="label" value="${rdfs}label" />
 <c:set var="researchDataClass" value="${vitroands}ResearchData" />
 
+<c:set var="inheritedSubjectArea">
+<sparql:sparql>
+	      <sparql:select model="${applicationScope.jenaOntModel}" var="subjectAreaSparql" subject="<${subjectUri}>">
+	          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	      	  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	          PREFIX bibo: <http://purl.org/ontology/bibo/>
+	          PREFIX core: <http://vivoweb.org/ontology/core#>
+	          SELECT ?subjectArea ?subjectAreaLabel WHERE{
+                    ?subject core:hasSubjectArea ?subjectArea .
+                    ?subjectArea rdfs:label ?subjectAreaLabel
+              }
+	      </sparql:select>
+					<c:forEach items="${subjectAreaSparql.rows}" var="subjectAreaResult" varStatus="counter">
+                                            <input type="hidden" disabled id="inferredStatementsSA${counter.count}" name="inferredStatementsSA${counter.count}" value="
+                                                @prefix ands: <${vitroands}> .
+                                                @prefix core: <${vivoCore}> .
+                                                ?researchDataUri core:hasSubjectArea <${subjectAreaResult.subjectArea}> ." />
+                                            <li>
+                                                Subject Area: ${subjectAreaResult.subjectAreaLabel}
+                                                <div style="float: right">
+                                                    <input type="checkbox" name="list" onclick="if(this.checked){checkBox('inferredStatementsSA'+${counter.count})}else{unCheckBox('inferredStatementsSA'+${counter.count})}"/>
+                                                </div>
+                                            </li>
+					</c:forEach>
+	  </sparql:sparql>
+</c:set>
+
 <%--  Then enter a SPARQL query for each field, by convention concatenating the field id with "Existing"
       to convey that the expression is used to retrieve any existing value for the field in an existing individual.
       Each of these must then be referenced in the sparqlForExistingLiterals section of the JSON block below
